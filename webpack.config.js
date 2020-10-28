@@ -17,6 +17,7 @@ module.exports = {
             {
                 test: /\.[tj]sx?$/,
                 use: ['ts-loader'],
+                exclude: /node_modules/,
             },
             {
                 test: /\.(s*)css$/,
@@ -33,6 +34,14 @@ module.exports = {
                         }
                     },
                     'sass-loader'
+                ],
+            },
+            {
+                test: /\.(png|jpe?g|gif)$/i,
+                use: [
+                    {
+                        loader: 'file-loader',
+                    },
                 ],
             }
         ]
