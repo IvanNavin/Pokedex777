@@ -1,0 +1,41 @@
+.content {
+  display: flex;
+  justify-content: center;
+  flex: 1 0 auto;
+  padding-top: 67px;
+  padding-left: 13vw;
+}
+
+h1 {
+  font-weight: normal;
+
+  b {
+    font-weight: bold;
+  }
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: row;
+}
+
+.text {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 516px;
+  align-items: flex-start;
+
+  span {
+    margin: 64px 0;
+  }
+}
+
+.imgwrapper {
+  width: 793px;
+  overflow: hidden;
+}
+
+.image {
+  display: flex;
+  width: 888px;
+}
