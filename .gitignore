@@ -1,4 +1,4 @@
 node_modules/
 .idea/
 
-src/**.d.ts
+**/*.module.scss.d.ts

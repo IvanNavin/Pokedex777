@@ -1,17 +1,18 @@
 import React from 'react';
-import Header from './components/Header';
-import Footer from './components/Footer';
-import Content from './components/Content';
-
-import s from './App.module.scss';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import HomePage from './pages/Home';
+import Pokedex from './pages/Pokedex';
+import RedirectPage from './pages/404';
 
 const App = () => {
   return (
-    <div className={s.layout}>
-      <Header />
-      <Content />
-      <Footer />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/" exact component={HomePage} />
+        <Route path="/pokedex" component={Pokedex} />
+        <Route render={RedirectPage} />
+      </Switch>
+    </BrowserRouter>
   );
 };
 
