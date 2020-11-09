@@ -1,0 +1,33 @@
+@import '../../variables';
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 100vh;
+  background: linear-gradient(180deg, $third 0%, $primary 100%);
+  overflow: hidden;
+}
+
+.contentWrap {
+  display: flex;
+  flex-direction: row;
+}
+
+.contentText {
+  display: flex;
+  flex-direction: column;
+  flex: 0 1 516px;
+  align-items: flex-start;
+
+  h1 {
+    font-weight: normal;
+
+    b {
+      font-weight: bold;
+    }
+  }
+
+  p {
+    margin: 64px 0;
+  }
+}
