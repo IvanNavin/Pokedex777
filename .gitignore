@@ -1,4 +1,6 @@
 node_modules/
 .idea/
+dist/
 
 **/*.module.scss.d.ts
+yarn-error.log

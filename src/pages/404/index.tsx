@@ -1,21 +1,12 @@
 import React from 'react';
+import {navigate} from "hookrouter";
 import Button from '../../components/Button';
 
 import Trio from './assets/Team_Rocket_trio.png';
-
 import s from './404.module.scss';
 
-interface RedirectProps {
-  history: {
-    push(url: string): void;
-  };
-}
 
-const RedirectPage: React.FC<RedirectProps> = (props) => {
-  const {
-    history: { push },
-  } = props;
-
+const RedirectPage = () => {
   return (
     <div className={s.root}>
       <div className={s.titleblock}>
@@ -28,7 +19,7 @@ const RedirectPage: React.FC<RedirectProps> = (props) => {
         <span className={s.left}>На этот раз победила&nbsp;</span>
         <span className={s.right}>ракетная команда.</span>
       </div>
-      <Button size="big" color="yellow" onClick={() => push('/')}>
+      <Button size="big" color="yellow" onClick={() => navigate('/')}>
         Назад
       </Button>
     </div>
