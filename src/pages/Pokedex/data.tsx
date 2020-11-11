@@ -1,4 +1,4 @@
-import { IPokemonsProps } from 'src/pages/Pokedex/data';
+import { IPokemonsProps } from '../../components/PokemonCard';
 
 export const POKEMONS: IPokemonsProps[] = [
     {
