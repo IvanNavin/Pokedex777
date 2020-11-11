@@ -1,9 +1,9 @@
 import React from 'react';
-import {A, usePath} from 'hookrouter';
+import { A, usePath } from 'hookrouter';
 import cn from 'classnames';
 
 import { ReactComponent as Logo } from './assets/Logo.svg';
-import {GENERAL_MENU} from "../../routes";
+import { GENERAL_MENU } from '../../routes';
 
 import s from './Header.module.scss';
 
@@ -14,20 +14,20 @@ const Header = () => {
       <div className={s.wrap}>
         <Logo className={s.pokemonLogo} />
         <nav className={s.menuWrap}>
-          {GENERAL_MENU.map(({title, link }) => (
-              <A
-                  key={title}
-                  href={link}
-                  className={cn(s.menuLink, {
-                    [s.activeLink]: link === location,
-                  })}>
-                {title}
-              </A>
-            ))}
+          {GENERAL_MENU.map(({ title, link }) => (
+            <A
+              key={title}
+              href={link}
+              className={cn(s.menuLink, {
+                [s.activeLink]: link === location,
+              })}>
+              {title}
+            </A>
+          ))}
         </nav>
       </div>
     </header>
   );
 };
 
-export default Header;
+export default React.memo(Header);

@@ -1,68 +1,107 @@
 import React from 'react';
-import Heading from "../Heading";
+import cn from 'classnames';
+import Heading from '../Heading';
 
 import s from './Pokemon.module.scss';
 
-interface Stats {
-    hp?:                number;
-    attack:            number;
-    defense:           number;
-    "special-attack"?:  number;
-    "special-defense"?: number;
-    speed?:             number;
+type TPokemonAbility =
+  | 'overgrow'
+  | 'chlorophyll'
+  | 'blaze'
+  | 'solar-power'
+  | 'torrent'
+  | 'rain-dish'
+  | 'shield-dust'
+  | 'run-away';
+
+type TPokemonType = 'grass' | 'poison' | 'fire' | 'flying' | 'water' | 'bug';
+
+type TGradientType =
+  | 'grayGradient'
+  | 'blueGradient'
+  | 'colorGradient'
+  | 'pinkGRadient'
+  | 'greenGradient'
+  | 'goldGradient'
+  | 'yellowGradient'
+  | 'redGradientCard';
+
+interface IPokemonStats {
+  attack: number;
+  defense: number;
+  hp?: number;
+  'special-attack'?: number;
+  'special-defense'?: number;
+  speed?: number;
 }
 
 export interface IPokemonsProps {
-    name_clean?:      string;
-    abilities?:       string[];
-    stats:           Stats;
-    types:           string[];
-    img:             string;
-    name:            string;
-    base_experience?: number;
-    height?:          number;
-    id?:              number;
-    is_default?:      boolean;
-    order?:           number;
-    weight?:          number;
+  abilities?: TPokemonAbility[];
+  base_experience?: number;
+  height?: number;
+  id?: number;
+  img: string;
+  is_default?: boolean;
+  name: string;
+  name_clean?: string;
+  order?: number;
+  stats: IPokemonStats;
+  types: TPokemonType[];
+  weight?: number;
 }
 
-
 const Pokemon = (pokemon: IPokemonsProps) => {
-    const { types, name, img, stats: { attack, defense } } = pokemon;
-    return (
-        <div className={s.root}>
-            <div className={s.infoWrap}>
-                <Heading tag='h5' className={s.titleName}>
-                    { name }
-                </Heading>
-                <div className={s.statWrap}>
-                    <div className={s.statItem}>
-                        <div className={s.statValue}>
-                            { attack }
-                        </div>
-                        Атака
-                    </div>
-                    <div className={s.statItem}>
-                        <div className={s.statValue}>
-                            { defense }
-                        </div>
-                        Защита
-                    </div>
-                </div>
-                <div className={s.labelWrap}>
-                    {
-                        types.map((type) => (
-                            <span key={Date()} className={s.label}>{type}</span>
-                        ))
-                    }
-                </div>
-            </div>
-            <div className={s.pictureWrap}>
-                <img src={ img } alt={ name } />
-            </div>
+  const {
+    types,
+    name,
+    img,
+    stats: { attack, defense },
+  } = pokemon;
+  const gradientArr: Array<TGradientType> = [
+    'grayGradient',
+    'blueGradient',
+    'colorGradient',
+    'pinkGRadient',
+    'greenGradient',
+    'goldGradient',
+    'yellowGradient',
+    'redGradientCard',
+  ];
+  const gradient = gradientArr[Math.floor(Math.random() * gradientArr.length)];
+  const pictureWrap = cn(s.pictureWrap, s[gradient]);
+
+  return (
+    <div className={s.root}>
+      <div className={s.infoWrap}>
+        <Heading tag="h5" className={s.titleName}>
+          {name}
+        </Heading>
+        <div className={s.statWrap}>
+          <div className={s.statItem}>
+            <div className={s.statValue}>{attack}</div>
+            Атака
+          </div>
+          <div className={s.statItem}>
+            <div className={s.statValue}>{defense}</div>
+            Защита
+          </div>
         </div>
-    );
+        <div className={s.labelWrap}>
+          {types.map((type) => {
+            const labelClass = cn(s.label, s[type]);
+            return (
+              <span key={type} className={labelClass}>
+                {type}
+              </span>
+            );
+          })}
+        </div>
+      </div>
+      <div className={pictureWrap}>
+        <img src={img} alt={name} />
+      </div>
+    </div>
+  );
 };
 
 export default Pokemon;

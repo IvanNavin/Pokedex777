@@ -1,4 +1,15 @@
 .root {
+}
+
+.title {
+  text-align: center;
+  font-weight: 400;
+  b {
+    font-weight: 700;
+  }
+}
+
+.wrapper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: repeat(4, 1fr);

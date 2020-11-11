@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../variables';
 
 .root {
   justify-self: center;
@@ -7,7 +7,6 @@
   box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   background: #f6f7f9;
   border-radius: 8px;
-  overflow: hidden;
   position: relative;
   cursor: pointer;
   transition: all ease-in-out 0.3s;
@@ -69,12 +68,51 @@
 .pictureWrap {
   width: 232px;
   height: 100%;
-  background: linear-gradient(270deg, #b33327 0.15%, $danger 100%);
   position: absolute;
   right: 0;
   display: flex;
   justify-content: center;
   align-items: center;
+
+  &.grayGradient {
+    background: linear-gradient(180deg, #ffffff 30.32%, #f5f5f5 100%);
+  }
+
+  &.blueGradient {
+    background: linear-gradient(270deg, #5bc7fa 0.15%, #35baff 100%);
+  }
+
+  &.colorGradient {
+    background: linear-gradient(270deg, #b33327 0.15%, #d93e30 100%);
+  }
+
+  &.pinkGRadient {
+    background: linear-gradient(270deg, #f89eae 0.15%, #f4b5c1 100%);
+  }
+
+  &.greenGradient {
+    background: linear-gradient(270deg, #64d368 0.15%, #64d368 70.88%);
+  }
+
+  &.goldGradient {
+    background: linear-gradient(
+      269.46deg,
+      #b57e10 -7.62%,
+      #b57e10 13.9%,
+      #f9df7b 28.5%,
+      #fff3a6 45.42%,
+      #f9df7b 62.17%,
+      #b57e10 81.71%
+    );
+  }
+
+  &.yellowGradient {
+    background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
+  }
+
+  &.redGradientCard {
+    background: linear-gradient(180deg, #732119 42.19%, #d93e30 100%);
+  }
 
   img {
     width: 80%;
@@ -98,6 +136,49 @@
   justify-content: center;
   align-items: center;
   margin-right: 12px;
+
+  &.stile,
+  &.dark,
+  &.rock {
+    background-color: #a1a1a1;
+  }
+
+  &.bug,
+  &.grass {
+    background-color: #70a83b;
+  }
+
+  &.ice,
+  &.water {
+    background-color: #a2cff0;
+  }
+
+  &.fire,
+  &.fighting,
+  &.dragon {
+    background-color: #f76545;
+  }
+
+  &.normal,
+  &.gosth {
+    background-color: #76aadb;
+  }
+
+  &.poison,
+  &.psychic,
+  &.fairy,
+  &.ghost {
+    background-color: #a974bc;
+  }
+
+  &.ground {
+    background-color: #9b897b;
+  }
+
+  &.flying,
+  &.electric {
+    background-color: #f7c545;
+  }
 
   &:last-child {
     margin-right: 0;
