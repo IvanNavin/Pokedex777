@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Pokemon, { IPokemonsProps } from '../../components/PokemonCard';
 import Heading from '../../components/Heading';
 
+import { ReactComponent as Loading } from './assets/Loading.svg';
+
 import s from './Pokedex.module.scss';
 
 interface IData {
@@ -43,7 +45,7 @@ const Pokedex = () => {
   const { data, isLoading, isError } = usePokemons();
 
   if (isLoading) {
-    return <div>Loading...</div>;
+    return <Loading className={s.loader} />;
   }
 
   if (isError) {
