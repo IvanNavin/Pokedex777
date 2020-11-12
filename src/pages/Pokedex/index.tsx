@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Pokemon, { IPokemonsProps } from '../../components/PokemonCard';
 import Heading from '../../components/Heading';
+import Input from '../../components/Input';
 
 import { ReactComponent as Loading } from './assets/Loading.svg';
 
@@ -19,8 +20,10 @@ const usePokemons = () => {
   useEffect(() => {
     const getPokemons = async () => {
       setIsLoading(true);
+      const limit = `?limit=9`;
+      const url = `http://zar.hosthot.ru/api/v1/pokemons${limit}`;
       try {
-        const response = await fetch('http://zar.hosthot.ru/api/v1/pokemons');
+        const response = await fetch(url);
         const result = await response.json();
 
         setData(result);
@@ -55,8 +58,9 @@ const Pokedex = () => {
   return (
     <div>
       <Heading tag="h3" className={s.title}>
-        {data.total} <b>Покемонов</b> все для тебя
+        {data.total} <b>Покемонов</b> уже ждут тебя
       </Heading>
+      <Input type="text" />
       <div className={s.wrapper}>
         {data.pokemons.map((pokemon) => {
           return <Pokemon {...pokemon} key={pokemon.id} />;

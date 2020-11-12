@@ -2,14 +2,15 @@
 
 .root {
   justify-self: center;
-  width: 351px;
-  height: 136px;
+  width: 26vw;
+  height: 10vw;
   box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   background: #f6f7f9;
   border-radius: 8px;
   position: relative;
   cursor: pointer;
   transition: all ease-in-out 0.3s;
+  margin-bottom: 20px;
 
   &:hover {
     transform: scale(1.03);
@@ -19,29 +20,30 @@
 .infoWrap {
   position: absolute;
   z-index: 1;
-  width: 150px;
-  top: 6px;
-  left: 25px;
+  width: 10vw;
+  top: 6%;
+  left: 7%;
 }
 
 .titleName {
-  margin: 0 0 12px;
+  font-size: 1.3vw;
+  margin: 0 0 0.9vw;
   text-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
 }
 
 .statWrap {
   display: flex;
-  margin-bottom: 12px;
+  margin-bottom: 0.9vw;
 }
 
 .statItem {
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.9vw;
+  line-height: 1vw;
   text-align: center;
   color: #4b4b4b;
-  margin-right: 12px;
+  margin-right: 0.9vw;
 
   &:last-child {
     margin-right: 0;
@@ -49,8 +51,8 @@
 }
 
 .statValue {
-  width: 36px;
-  height: 36px;
+  width: 2.7vw;
+  height: 2.7vw;
   border: 3px solid $dark;
   border-radius: 50%;
   overflow: hidden;
@@ -59,14 +61,14 @@
   align-items: center;
   font-style: normal;
   font-weight: normal;
-  font-size: 15px;
-  line-height: 18px;
+  font-size: 1.1vw;
+  line-height: 1.2vw;
   color: $dark;
-  margin: 0 auto 8px;
+  margin: 0 auto 0.6vw;
 }
 
 .pictureWrap {
-  width: 232px;
+  width: 65%;
   height: 100%;
   position: absolute;
   right: 0;
@@ -123,19 +125,19 @@
   background: $second;
   box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
   border-radius: 11px;
-  height: 15px;
-  min-width: 60px;
+  height: 1.1vw;
+  min-width: 4.4vw;
   font-style: normal;
   font-weight: normal;
-  font-size: 12px;
-  line-height: 14px;
+  font-size: 0.9vw;
+  line-height: 1vw;
   text-align: center;
   color: $dark;
-  padding: 0 12px 2px;
+  padding: 0 0.9vw 0.1vw;
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-right: 12px;
+  margin-right: 0.9vw;
 
   &.stile,
   &.dark,
