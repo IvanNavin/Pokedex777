@@ -27,6 +27,9 @@ module.exports = {
         jsx: 'never',
       },
     ],
+    'no-shadow': 'off',
+    camelcase: 'off',
+    'react/jsx-props-no-spreading': ['off'],
   },
   settings: {
     'import/resolver': {

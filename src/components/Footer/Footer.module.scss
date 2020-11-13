@@ -5,5 +5,11 @@
   max-width: 1125px;
   font-size: 18px;
   line-height: 21px;
-  margin: 33px auto;
+  position: fixed;
+  top: auto;
+  right: 0;
+  bottom: 33px;
+  left: 0;
+  margin: 0 auto;
+  z-index: 1;
 }
