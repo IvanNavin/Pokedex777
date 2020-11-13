@@ -6,7 +6,6 @@
 
 html,
 body {
-  min-height: 100vh;
   font-family: 'Karla', sans-serif;
   margin: 0;
   padding: 0;
@@ -14,6 +13,10 @@ body {
 
 body {
   font-family: 'Karla', sans-serif;
+}
+
+#root {
+  min-height: 100vh;
 }
 
 h1 {

@@ -5,10 +5,14 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  min-height: 100vh;
+  min-height: calc(100vh - 93px);
   background-color: $danger;
 
   button {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    left: 0;
     width: 231px;
     margin: 64px auto;
   }
@@ -19,13 +23,7 @@
 }
 
 .title {
-  font-size: 700px;
-  line-height: 1;
-  text-align: center;
-  font-weight: bold;
-  @include media('>phone', '<desktop') {
-    font-size: 50vw;
-  }
+  width: 100%;
 }
 
 .trio {
@@ -36,17 +34,22 @@
 }
 
 .wrapper {
+  position: fixed;
+  bottom: 130px;
   display: flex;
   align-self: center;
   font-weight: bold;
-  font-size: 48px;
+  font-size: 3.5vw;
   line-height: 56px;
+  white-space: nowrap;
 }
 
 .left {
   color: $white;
+  text-shadow: 1px 1px #000;
 }
 
 .right {
   color: #000;
+  text-shadow: 1px 1px $danger;
 }

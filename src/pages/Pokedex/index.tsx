@@ -16,6 +16,9 @@ const usePokemons = () => {
   const [data, setData] = useState<IData>({ total: 0, pokemons: [] });
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [inputValue, setInputValue] = useState<string>('');
+
+  const onChange = (ev: React.ChangeEvent<HTMLInputElement>): void => setInputValue(ev.target.value);
 
   useEffect(() => {
     const getPokemons = async () => {
@@ -41,11 +44,13 @@ const usePokemons = () => {
     data,
     isLoading,
     isError,
+    inputValue,
+    onChange,
   };
 };
 
 const Pokedex = () => {
-  const { data, isLoading, isError } = usePokemons();
+  const { data, isLoading, isError, inputValue, onChange } = usePokemons();
 
   if (isLoading) {
     return <Loading className={s.loader} />;
@@ -56,15 +61,15 @@ const Pokedex = () => {
   }
 
   return (
-    <div>
+    <div className={s.root}>
       <Heading tag="h3" className={s.title}>
         {data.total} <b>Покемонов</b> уже ждут тебя
       </Heading>
-      <Input type="text" />
+      <Input inputValue={inputValue} onChange={onChange} />
       <div className={s.wrapper}>
-        {data.pokemons.map((pokemon) => {
-          return <Pokemon {...pokemon} key={pokemon.id} />;
-        })}
+        {data.pokemons.map((pokemon) => (
+          <Pokemon {...pokemon} key={pokemon.id} />
+        ))}
       </div>
     </div>
   );
