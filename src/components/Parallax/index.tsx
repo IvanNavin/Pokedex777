@@ -8,20 +8,26 @@ import PokeBallPng from './assets/PokeBall2.png';
 import CloudBigPng from './assets/Cloud2.png';
 import PikachuPng from './assets/Pikachu.png';
 
+export const ParallaxEffect = () => {
+    const [screenX, setScreenX] = useState(0);
+    const [screenY, setScreenY] = useState(0);
+
+    useEffect(() => {
+        const handleMouseMove = (event: MouseEvent) => {
+            setScreenX(event.screenX);
+            setScreenY(event.screenY);
+        };
+
+        window.addEventListener('mousemove', handleMouseMove);
+
+        return () => window.removeEventListener('mousemove', handleMouseMove);
+    }, [screenX, screenY]);
+
+    return {screenX, screenY}
+}
+
 const Parallax = () => {
-  const [screenX, setScreenX] = useState(0);
-  const [screenY, setScreenY] = useState(0);
-
-  useEffect(() => {
-    const handleMouseMove = (event: MouseEvent) => {
-      setScreenX(event.screenX);
-      setScreenY(event.screenY);
-    };
-
-    window.addEventListener('mousemove', handleMouseMove);
-
-    return () => window.removeEventListener('mousemove', handleMouseMove);
-  }, [screenX, screenY]);
+  const {screenX, screenY} = ParallaxEffect();
 
   return (
     <div className={s.root}>

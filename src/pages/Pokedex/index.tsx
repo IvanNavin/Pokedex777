@@ -25,6 +25,7 @@ const usePokemons = () => {
       setIsLoading(true);
       const limit = `?limit=9`;
       const url = `http://zar.hosthot.ru/api/v1/pokemons${limit}`;
+
       try {
         const response = await fetch(url);
         const result = await response.json();

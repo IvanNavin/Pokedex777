@@ -1,0 +1,279 @@
+@import "../../variables";
+
+.modalRoot {
+  display: flex;
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+.container {
+  display: flex;
+  width: 800px;
+  height: 371px;
+  background-color: $danger;
+  border-radius: 16px;
+  background: linear-gradient(180deg, #732119 42.19%, #d93e30 100%);
+  position: relative;
+}
+
+.pokeWrap {
+  width: 364px;
+  min-width: 364px;
+  position: relative;
+  background: linear-gradient(270deg, #B33327 0.15%, #D93E30 100%);
+
+  img {
+    width: 100%;
+  }
+}
+
+.modalLabelWrap {
+  display: flex;
+  flex-wrap: nowrap;
+  position: absolute;
+  right: 14px;
+  bottom: 16px;
+}
+
+.statPokeWrap {
+  width: 100%;
+  padding: 29px 20px 25px 12px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  margin-bottom: 23px;
+}
+
+.header {
+  font-weight: bold;
+  font-size: 36px;
+  line-height: 42px;
+  color: #FDFDFD;
+  text-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
+  margin: 0;
+  &:first-letter {
+    text-transform: uppercase;
+  }
+}
+
+.generation {
+  font-size: 24px;
+  display: flex;
+  align-self: flex-end;
+  margin-bottom: 2px;
+  color: #FDFDFD;
+}
+
+.id {
+  width: 41px;
+  height: 41px;
+  border-radius: 50%;
+  background-color: #F2CB07;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 41px;
+  text-align: center;
+  color: #000;
+}
+
+.abilities {
+  width: 264px;
+  height: 60px;
+  background: #FDFDFD;
+  box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
+  border-radius: 8px;
+  padding: 12px 28px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 21px;
+  & span:first-child {
+    display: block;
+  }
+}
+
+.healthExp {
+  display: flex;
+  width: 100%;
+  height: 60px;
+  background: #FDFDFD;
+  box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
+  border-radius: 8px;
+  padding: 18px 19px 8px;
+  font-weight: normal;
+  font-size: 16px;
+  line-height: 19px;
+  margin-bottom: 21px;
+
+  span {
+    line-height: 0.5;
+  }
+}
+
+.health,
+.exp {
+  width: 50%;
+
+  span:first-child {
+    display: block;
+  }
+}
+
+.health {
+  padding-right: 27px;
+}
+
+.points {
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 19px;
+  color: #000000;
+}
+
+.progressBar {
+  height: 5px;
+  background: #F6F7F9;
+  border-radius: 8px;
+  position: relative;
+}
+
+.progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 5px;
+  background: linear-gradient(270deg, #64D368 0.15%, #64D368 70.88%);
+  border-radius: 8px;
+}
+
+.stat {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+
+.box {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  width: 82px;
+  height: 70px;
+  background: #FDFDFD;
+  box-shadow: 4px 4px 24px rgba(1, 17, 38, 0.2);
+  border-radius: 8px;
+  font-weight: normal;
+  font-size: 12px;
+  line-height: 14px;
+  text-align: center;
+  color: #4B4B4B;
+}
+
+.circle {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: 3px solid $dark;
+  text-align: center;
+  line-height: 32px;
+  font-size: 16px;
+  color: #212121;
+}
+
+.transparent {
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(33, 33, 33, .5);
+  z-index: -1;
+  cursor: pointer;
+}
+
+.label {
+  background: $second;
+  box-shadow: inset 0 -2px 0 rgba(0, 0, 0, 0.18);
+  border-radius: 11px;
+  height: 1.1vw;
+  min-width: 4.4vw;
+  font-style: normal;
+  font-weight: normal;
+  font-size: 0.9vw;
+  line-height: 1vw;
+  text-align: center;
+  color: $dark;
+  padding: 0 0.9vw 0.1vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.9vw;
+
+  &.stile,
+  &.dark,
+  &.rock {
+    background-color: #a1a1a1;
+  }
+
+  &.bug,
+  &.grass {
+    background-color: #70a83b;
+  }
+
+  &.ice,
+  &.water {
+    background-color: #a2cff0;
+  }
+
+  &.fire,
+  &.fighting,
+  &.dragon {
+    background-color: #f76545;
+  }
+
+  &.normal,
+  &.gosth {
+    background-color: #76aadb;
+  }
+
+  &.poison,
+  &.psychic,
+  &.fairy,
+  &.ghost {
+    background-color: #a974bc;
+  }
+
+  &.ground {
+    background-color: #9b897b;
+  }
+
+  &.flying,
+  &.electric {
+    background-color: #f7c545;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}
+
+.button {
+  position: absolute;
+  top: -35px;
+  right: 0;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  font-size: 35px;
+  font-weight: bold;
+  cursor: pointer;
+}

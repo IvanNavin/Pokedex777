@@ -3,6 +3,8 @@ import cn from 'classnames';
 import Heading from '../Heading';
 
 import s from './Pokemon.module.scss';
+import useModal from "../Modal/useModal";
+import Modal from "../Modal";
 
 type TPokemonAbility =
   | 'overgrow'
@@ -30,8 +32,8 @@ interface IPokemonStats {
   attack: number;
   defense: number;
   hp?: number;
-  'special-attack'?: number;
-  'special-defense'?: number;
+  'special-attack': number;
+  'special-defense': number;
   speed?: number;
 }
 
@@ -57,6 +59,7 @@ const Pokemon = (pokemon: IPokemonsProps) => {
     img,
     stats: { attack, defense },
   } = pokemon;
+  const {isShowing, toggle} = useModal();
   const gradientArr: Array<TGradientType> = [
     'grayGradient',
     'blueGradient',
@@ -71,7 +74,7 @@ const Pokemon = (pokemon: IPokemonsProps) => {
   const pictureWrap = cn(s.pictureWrap, s[gradient]);
 
   return (
-    <div className={s.root}>
+    <div className={s.root} onClick={toggle}>
       <div className={s.infoWrap}>
         <Heading tag="h5" className={s.titleName}>
           {name}
@@ -100,6 +103,11 @@ const Pokemon = (pokemon: IPokemonsProps) => {
       <div className={pictureWrap}>
         <img src={img} alt={name} />
       </div>
+      <Modal
+          isShowing={isShowing}
+          hide={toggle}
+          data={pokemon}
+      />
     </div>
   );
 };

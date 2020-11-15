@@ -11,6 +11,7 @@
     "start": "env NODE_ENV=development webpack-dev-server"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "classnames": "^2.2.6",
     "hookrouter": "^1.2.3",
     "react": "^17.0.1",

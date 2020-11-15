@@ -1,18 +1,24 @@
 import React from 'react';
 import { navigate } from 'hookrouter';
 import Button from '../../components/Button';
+import {ParallaxEffect} from "../../components/Parallax";
+import { LinkEnum } from '../../routes';
 
 import { ReactComponent as BG } from './assets/404.svg';
 import Trio from './assets/Team_Rocket_trio.png';
+
 import s from './404.module.scss';
-import { LinkEnum } from '../../routes';
 
 const RedirectPage = () => {
-  return (
+    const {screenX, screenY} = ParallaxEffect();
+
+    return (
     <div className={s.root}>
       <div className={s.titleblock}>
         <BG className={s.title} />
-        <div className={s.trio}>
+        <div className={s.trio} style={{
+            transform: `translate(${screenY * 0.03}px, ${screenX * 0.05}px)`,
+        }}>
           <img src={Trio} alt="Trio" />
         </div>
       </div>
