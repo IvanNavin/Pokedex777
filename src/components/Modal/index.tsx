@@ -29,6 +29,11 @@ const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
         }
     } = data;
 
+    const imageBackground = cn(
+        s.pokeWrap,
+        s[types[0]]
+    );
+
     return isShowing ? ReactDOM.createPortal(
         <>
             <div className={s.modalRoot}>
@@ -37,7 +42,7 @@ const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
                             onClick={hide}>
                         <span aria-hidden="true">&times;</span>
                     </button>
-                    <div className={s.pokeWrap}>
+                    <div className={imageBackground}>
                         <img src={img} alt={name}/>
                         <div className={s.modalLabelWrap}>
                             {types.map((type) => {
@@ -53,7 +58,7 @@ const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
                     <div className={s.statPokeWrap}>
                         <div className={s.row}>
                             <Heading tag="h5" className={s.header}>{name}</Heading>
-                            <span className={s.generation}>Генерация 1</span>
+                            <span className={s.generation}>Поколение 1</span>
                             <span className={s.id}>{id}</span>
                         </div>
                         <div className={s.abilities}>

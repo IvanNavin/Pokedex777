@@ -60,18 +60,7 @@ const Pokemon = (pokemon: IPokemonsProps) => {
     stats: { attack, defense },
   } = pokemon;
   const {isShowing, toggle} = useModal();
-  const gradientArr: Array<TGradientType> = [
-    'grayGradient',
-    'blueGradient',
-    'colorGradient',
-    'pinkGRadient',
-    'greenGradient',
-    'goldGradient',
-    'yellowGradient',
-    'redGradientCard',
-  ];
-  const gradient = gradientArr[Math.floor(Math.random() * gradientArr.length)];
-  const pictureWrap = cn(s.pictureWrap, s[gradient]);
+  const pictureWrap = cn(s.pictureWrap, s[types[0]]);
 
   return (
     <div className={s.root} onClick={toggle}>
