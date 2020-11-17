@@ -32,6 +32,12 @@
   animation: rotating 0.2s ease-in-out infinite;
 }
 
+.filters {
+  max-width: 1088px;
+  width: 100%;
+  margin: 0 auto;
+}
+
 @keyframes rotating {
   from {
     transform: rotate(0deg);

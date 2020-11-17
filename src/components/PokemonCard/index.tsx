@@ -1,10 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 import Heading from '../Heading';
+import useModal from '../Modal/useModal';
+import Modal from '../Modal';
+
+import soon from './assets/soon.png';
 
 import s from './Pokemon.module.scss';
-import useModal from "../Modal/useModal";
-import Modal from "../Modal";
 
 type TPokemonAbility =
   | 'overgrow'
@@ -17,16 +19,6 @@ type TPokemonAbility =
   | 'run-away';
 
 type TPokemonType = 'grass' | 'poison' | 'fire' | 'flying' | 'water' | 'bug';
-
-type TGradientType =
-  | 'grayGradient'
-  | 'blueGradient'
-  | 'colorGradient'
-  | 'pinkGRadient'
-  | 'greenGradient'
-  | 'goldGradient'
-  | 'yellowGradient'
-  | 'redGradientCard';
 
 interface IPokemonStats {
   attack: number;
@@ -59,11 +51,11 @@ const Pokemon = (pokemon: IPokemonsProps) => {
     img,
     stats: { attack, defense },
   } = pokemon;
-  const {isShowing, toggle} = useModal();
+  const { isShowing, toggle } = useModal();
   const pictureWrap = cn(s.pictureWrap, s[types[0]]);
 
   return (
-    <div className={s.root} onClick={toggle}>
+    <div className={s.root} onClick={toggle} role="dialog">
       <div className={s.infoWrap}>
         <Heading tag="h5" className={s.titleName}>
           {name}
@@ -90,13 +82,9 @@ const Pokemon = (pokemon: IPokemonsProps) => {
         </div>
       </div>
       <div className={pictureWrap}>
-        <img src={img} alt={name} />
+        <img src={img || soon} alt={name} />
       </div>
-      <Modal
-          isShowing={isShowing}
-          hide={toggle}
-          data={pokemon}
-      />
+      <Modal isShowing={isShowing} hide={toggle} data={pokemon} />
     </div>
   );
 };
