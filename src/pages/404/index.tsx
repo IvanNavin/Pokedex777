@@ -16,10 +16,10 @@ const RedirectPage = () => {
     <div className={s.root}>
       <div className={s.titleblock}>
         <BG className={s.title} />
-        <div className={s.trio} style={{
-            transform: `translate(${screenY * 0.03}px, ${screenX * 0.05}px)`,
-        }}>
-          <img src={Trio} alt="Trio" />
+        <div className={s.trio}>
+          <img src={Trio} alt="Trio" style={{
+              transform: `translate(${screenY * 0.03}px, ${screenX * 0.05}px)`,
+          }} />
         </div>
       </div>
       <div className={s.wrapper}>

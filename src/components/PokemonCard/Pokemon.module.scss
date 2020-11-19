@@ -20,7 +20,7 @@
 .infoWrap {
   position: absolute;
   z-index: 1;
-  width: 10vw;
+  width: 20vw;
   top: 6%;
   left: 7%;
 }
@@ -76,45 +76,7 @@
   justify-content: center;
   align-items: center;
 
-  &.grayGradient {
-    background: linear-gradient(180deg, #ffffff 30.32%, #f5f5f5 100%);
-  }
-
-  &.blueGradient {
-    background: linear-gradient(270deg, #5bc7fa 0.15%, #35baff 100%);
-  }
-
-  &.colorGradient {
-    background: linear-gradient(270deg, #b33327 0.15%, #d93e30 100%);
-  }
-
-  &.pinkGRadient {
-    background: linear-gradient(270deg, #f89eae 0.15%, #f4b5c1 100%);
-  }
-
-  &.greenGradient {
-    background: linear-gradient(270deg, #64d368 0.15%, #64d368 70.88%);
-  }
-
-  &.goldGradient {
-    background: linear-gradient(
-      269.46deg,
-      #b57e10 -7.62%,
-      #b57e10 13.9%,
-      #f9df7b 28.5%,
-      #fff3a6 45.42%,
-      #f9df7b 62.17%,
-      #b57e10 81.71%
-    );
-  }
-
-  &.yellowGradient {
-    background: linear-gradient(180deg, #f5db13 0%, #f2b807 100%);
-  }
-
-  &.redGradientCard {
-    background: linear-gradient(180deg, #732119 42.19%, #d93e30 100%);
-  }
+  @include colors();
 
   img {
     width: 80%;

@@ -4,3 +4,52 @@ $second: #f28f16;
 $danger: #d93e30;
 $white: #f2f2f2;
 $dark: #212121;
+
+@mixin colors {
+  &.stile,
+  &.dark,
+  &.rock {
+    background-color: #a1a1a1;
+  }
+
+  &.bug,
+  &.grass {
+    background-color: #70a83b;
+  }
+
+  &.ice,
+  &.water {
+    background-color: #a2cff0;
+  }
+
+  &.fire,
+  &.fighting,
+  &.dragon {
+    background-color: #f76545;
+  }
+
+  &.normal,
+  &.gosth {
+    background-color: #76aadb;
+  }
+
+  &.poison,
+  &.psychic,
+  &.fairy,
+  &.ghost {
+    background-color: #a974bc;
+  }
+
+  &.ground {
+    background-color: #9b897b;
+  }
+
+  &.flying,
+  &.electric {
+    background-color: #f7c545;
+  }
+
+  &:last-child {
+    margin-right: 0;
+  }
+}

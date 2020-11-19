@@ -19,6 +19,8 @@
 }
 
 .titleblock {
+  display: flex;
+  justify-content: center;
   position: relative;
 }
 
@@ -29,13 +31,11 @@
 .trio {
   position: absolute;
   top: 0;
-  right: 25%;
-  left: 25%;
 }
 
 .wrapper {
   position: fixed;
-  bottom: 130px;
+  bottom: 150px;
   display: flex;
   align-self: center;
   font-weight: bold;
