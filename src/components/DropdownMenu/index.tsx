@@ -9,24 +9,14 @@ import s from './DropdownMenu.module.scss';
 interface IDropdown {
   title: string;
   types: string[];
-  filter: React.Dispatch<React.SetStateAction<{}>>;
 }
 const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
-  const { title, types, filter } = props;
+  const { title, types } = props;
   const dropdownRef = useRef(null);
   const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-  const [itemIsActive, setItemIsActive] = useState(false);
+  const [itemIsActive] = useState(false);
   const onClick = () => setIsActive(!isActive);
   const dropClass = cn(s.menu, { [s.active]: isActive });
-
-  const filterFn = (ev: React.MouseEvent<HTMLElement>): void => {
-    setItemIsActive(!itemIsActive);
-    filter((s) => ({
-      /* not working */ ...s,
-      // name: (ev.target as any).value
-      name: ev.currentTarget.textContent,
-    }));
-  };
 
   return (
     <div>
@@ -38,7 +28,7 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
           <ul>
             {types.map((item) => {
               return (
-                <li className={cn(s.item, { [s.itemActive]: itemIsActive })} key={item} onClick={filterFn}>
+                <li className={cn(s.item, { [s.itemActive]: itemIsActive })} key={item}>
                   {item}
                 </li>
               );

@@ -21,6 +21,17 @@
   outline: transparent;
   padding-left: 52px;
   margin: 20px 0 40px;
+
+  &:after {
+    content: '';
+    position: absolute;
+    right: 10px;
+    width: 3px;
+    height: 3px;
+    border-left: 2px solid black;
+    border-bottom: 2px solid black;
+    transform: rotate(-45deg);
+  }
 }
 
 .menuTrigger:hover {
