@@ -1,5 +1,4 @@
-interface Iconfig {
-  [key: string]: any;
+interface IConfig {
   client: {
     server: {
       protocol: string;
@@ -12,11 +11,23 @@ interface Iconfig {
           pathname: string;
         };
       };
+      getPokemon: {
+        method: string;
+        uri: {
+          pathname: string;
+        };
+      };
+      getPokemonsByType: {
+        method: string;
+        uri: {
+          pathname: string;
+        };
+      };
     };
   };
 }
 
-const config: Iconfig = {
+const config: IConfig = {
   client: {
     server: {
       protocol: 'http',
@@ -27,6 +38,18 @@ const config: Iconfig = {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons',
+        },
+      },
+      getPokemon: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/pokemon/{id}',
+        },
+      },
+      getPokemonsByType: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/pokemons?types={type}',
         },
       },
     },

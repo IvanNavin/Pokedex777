@@ -1,4 +1,4 @@
-@import "../../variables";
+@import '../../variables';
 
 .modalRoot {
   display: flex;
@@ -25,6 +25,7 @@
 .pokeWrap {
   width: 364px;
   min-width: 364px;
+  border-radius: 16px 0 0 16px;
   position: relative;
 
   @include colors();
@@ -45,22 +46,29 @@
 .statPokeWrap {
   width: 100%;
   padding: 29px 20px 25px 12px;
+  position: relative;
 }
 
 .row {
   display: flex;
-  flex-wrap: nowrap;
+  flex-wrap: wrap;
   justify-content: space-between;
-  margin-bottom: 23px;
+  margin-bottom: 12px;
 }
 
 .header {
+  display: block;
   font-weight: bold;
   font-size: 36px;
   line-height: 42px;
-  color: #FDFDFD;
+  color: #fdfdfd;
   text-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   margin: 0;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
   &:first-letter {
     text-transform: uppercase;
   }
@@ -70,15 +78,16 @@
   font-size: 24px;
   display: flex;
   align-self: flex-end;
-  margin-bottom: 2px;
-  color: #FDFDFD;
+  color: #fdfdfd;
+  white-space: nowrap;
+  margin: 0 6px 3px;
 }
 
 .id {
-  width: 41px;
   height: 41px;
+  padding: 0 15px;
   border-radius: 50%;
-  background-color: #F2CB07;
+  background-color: #f2cb07;
   font-weight: normal;
   font-size: 16px;
   line-height: 41px;
@@ -87,16 +96,17 @@
 }
 
 .abilities {
-  width: 264px;
+  width: 100%;
   height: 60px;
-  background: #FDFDFD;
+  background: #fdfdfd;
   box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   border-radius: 8px;
   padding: 12px 28px;
   font-weight: normal;
   font-size: 16px;
   line-height: 19px;
-  margin-bottom: 21px;
+  margin: 0 0 21px;
+
   & span:first-child {
     display: block;
   }
@@ -106,7 +116,7 @@
   display: flex;
   width: 100%;
   height: 60px;
-  background: #FDFDFD;
+  background: #fdfdfd;
   box-shadow: 4px 4px 4px rgba(33, 33, 33, 0.1);
   border-radius: 8px;
   padding: 18px 19px 8px;
@@ -142,7 +152,7 @@
 
 .progressBar {
   height: 5px;
-  background: #F6F7F9;
+  background: #f6f7f9;
   border-radius: 8px;
   position: relative;
 }
@@ -152,7 +162,7 @@
   top: 0;
   left: 0;
   height: 5px;
-  background: linear-gradient(270deg, #64D368 0.15%, #64D368 70.88%);
+  background: linear-gradient(270deg, #64d368 0.15%, #64d368 70.88%);
   border-radius: 8px;
 }
 
@@ -169,14 +179,14 @@
   align-items: center;
   width: 82px;
   height: 70px;
-  background: #FDFDFD;
+  background: #fdfdfd;
   box-shadow: 4px 4px 24px rgba(1, 17, 38, 0.2);
   border-radius: 8px;
   font-weight: normal;
   font-size: 12px;
   line-height: 14px;
   text-align: center;
-  color: #4B4B4B;
+  color: #4b4b4b;
 }
 
 .circle {
@@ -196,7 +206,7 @@
   right: 0;
   bottom: 0;
   left: 0;
-  background-color: rgba(33, 33, 33, .5);
+  background-color: rgba(33, 33, 33, 0.5);
   z-index: -1;
   cursor: pointer;
 }

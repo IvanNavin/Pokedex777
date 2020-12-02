@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom';
 import cn from 'classnames';
 
 import Heading from '../Heading';
-import { IPokemonsProps } from '../PokemonCard';
 
 import soon from './assets/soon.png';
 
 import s from './Modal.module.scss';
+import { PokemonsRequest } from '../../interface/pokemons';
 
 interface IModal {
   isShowing: boolean;
   hide: () => void;
-  data: IPokemonsProps;
+  data: PokemonsRequest;
 }
 
 const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
@@ -26,7 +26,7 @@ const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
     stats: { attack, defense, hp },
   } = data;
 
-  const imageBackground = cn(s.pokeWrap, s[types[0]]);
+  const imageBackground = cn(s.pokeWrap, s[types[0] as keyof typeof s]);
 
   return isShowing
     ? ReactDOM.createPortal(
@@ -40,7 +40,7 @@ const Modal: React.FC<IModal> = ({ isShowing, hide, data }) => {
                 <img src={img || soon} alt={name} />
                 <div className={s.modalLabelWrap}>
                   {types.map((type) => {
-                    const labelClass = cn(s.label, s[type]);
+                    const labelClass = cn(s.label, s[type as keyof typeof s]);
                     return (
                       <span key={type} className={labelClass}>
                         {type}
