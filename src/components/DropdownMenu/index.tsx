@@ -1,20 +1,20 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef } from 'react';
 import cn from 'classnames';
 
 import useDetectOutsideClick from './useDetectOutsideClick';
 import s from './DropdownMenu.module.scss';
 
-// type TPokemonType = 'grass' | 'poison' | 'fire' | 'flying' | 'water' | 'bug';
-
 interface IDropdown {
   title: string;
   types: string[];
+  activeTypes: Map<any, any>;
+  isActiveMenu: boolean;
+  onToggle: any;
 }
 const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
-  const { title, types } = props;
+  const { title, types, activeTypes, isActiveMenu, onToggle } = props;
   const dropdownRef = useRef(null);
-  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, false);
-  const [itemIsActive] = useState(false);
+  const [isActive, setIsActive] = useDetectOutsideClick(dropdownRef, isActiveMenu);
   const onClick = () => setIsActive(!isActive);
   const dropClass = cn(s.menu, { [s.active]: isActive });
 
@@ -26,10 +26,13 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
         </button>
         <nav ref={dropdownRef} className={dropClass}>
           <ul>
-            {types.map((item) => {
+            {types.map((type) => {
               return (
-                <li className={cn(s.item, { [s.itemActive]: itemIsActive })} key={item}>
-                  {item}
+                <li
+                  className={cn(s.item, { [s.itemActive]: activeTypes.has(type) })}
+                  onClick={() => onToggle(type, isActive)}
+                  key={type}>
+                  {type}
                 </li>
               );
             })}
@@ -40,4 +43,4 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
   );
 };
 
-export default DropdownMenu;
+export default React.memo(DropdownMenu);

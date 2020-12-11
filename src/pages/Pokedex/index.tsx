@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Pokemon from '../../components/PokemonCard';
 import Heading from '../../components/Heading';
 import Input from '../../components/Input';
@@ -18,14 +18,13 @@ interface IQuery {
 
 const Pokedex = () => {
   const [inputValue, setInputValue] = useState<string>('');
-  const [query, setQuery] = useState<IQuery>({
-    limit: 9,
-  });
-
-  const debounceValue = useDebounce(inputValue, 500);
-
-  const typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
+  const [typeValue, setTypeValue] = useState<string>('');
+  const [stateDropdownMenu, setStateDropdownMenu] = useState<boolean>(false);
+  const [query, setQuery] = useState<IQuery>({ limit: 100 });
+  const debounceValue = useDebounce(inputValue || typeValue, 500);
   const { data, isLoading, isError } = useData<IPokemons>('getPokemons', query, [debounceValue]);
+  const typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
+  const [typesArray, setTypesArray] = useState(new Map());
 
   const onChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(ev.target.value);
@@ -34,6 +33,31 @@ const Pokedex = () => {
       name: ev.target.value,
     }));
   };
+
+  const toggleHandler = (type: string, state: boolean) => {
+    typesArray.has(type) ? typesArray.delete(type) : setTypesArray(new Map(typesArray.set(type, '')));
+    setTypeValue(type);
+    setStateDropdownMenu(state);
+
+    const types = Array.from(typesArray.keys()).join('|');
+
+    setQuery((state: IQuery) => ({
+      ...state,
+      types,
+    }));
+  };
+
+  const dropdownTypes = useMemo(() => {
+    return (
+      <DropdownMenu
+        title="Тип"
+        types={typeFilter}
+        onToggle={toggleHandler}
+        isActiveMenu={stateDropdownMenu}
+        activeTypes={typesArray}
+      />
+    );
+  }, [stateDropdownMenu, toggleHandler, typesArray, typeFilter]);
 
   if (isError) {
     return <div>Партак!</div>;
@@ -45,7 +69,7 @@ const Pokedex = () => {
         {!isLoading && data && data.total} <b>Покемонов</b> уже ждут тебя
       </Heading>
       <Input inputValue={inputValue} onChange={onChange} />
-      <div className={s.filters}>{!isLoading && <DropdownMenu title="Тип" types={typeFilter} />}</div>
+      <div className={s.filters}>{dropdownTypes}</div>
       <div className={s.wrapper}>
         {isLoading ? (
           <Loading className={s.loader} />

@@ -36989,12 +36989,14 @@ object-assign
           var _b;
           var props = __rest(_a, []);
           var title = props.title,
-            types = props.types;
+            types = props.types,
+            activeTypes = props.activeTypes,
+            isActiveMenu = props.isActiveMenu,
+            onToggle = props.onToggle;
           var dropdownRef = react_1.useRef(null);
-          var _c = useDetectOutsideClick_1.default(dropdownRef, false),
+          var _c = useDetectOutsideClick_1.default(dropdownRef, isActiveMenu),
             isActive = _c[0],
             setIsActive = _c[1];
-          var itemIsActive = react_1.useState(false)[0];
           var onClick = function () {
             return setIsActive(!isActive);
           };
@@ -37002,6 +37004,7 @@ object-assign
             DropdownMenu_module_scss_1.default.menu,
             ((_b = {}), (_b[DropdownMenu_module_scss_1.default.active] = isActive), _b),
           );
+          react_1.useEffect(function () {}, []);
           return react_1.default.createElement(
             'div',
             null,
@@ -37019,18 +37022,27 @@ object-assign
                 react_1.default.createElement(
                   'ul',
                   null,
-                  types.map(function (item) {
+                  types.map(function (type) {
                     var _a;
+                    var _b = react_1.useState(false),
+                      item = _b[0],
+                      setItem = _b[1];
                     return react_1.default.createElement(
                       'li',
                       {
                         className: classnames_1.default(
                           DropdownMenu_module_scss_1.default.item,
-                          ((_a = {}), (_a[DropdownMenu_module_scss_1.default.itemActive] = itemIsActive), _a),
+                          ((_a = {}), (_a[DropdownMenu_module_scss_1.default.itemActive] = activeTypes.has(type)), _a),
                         ),
-                        key: item,
+                        onClick: function () {
+                          setItem(function () {
+                            return !item;
+                          });
+                          onToggle(type, isActive);
+                        },
+                        key: type,
                       },
-                      item,
+                      type,
                     );
                   }),
                 ),
@@ -37038,7 +37050,7 @@ object-assign
             ),
           );
         };
-        exports.default = DropdownMenu;
+        exports.default = react_1.default.memo(DropdownMenu);
 
         /***/
       },
@@ -37627,6 +37639,8 @@ object-assign
             className: Input_module_scss_1.default.root,
             value: inputValue,
             onChange: onChange,
+            placeholder:
+              '\u041D\u0430\u0439\u0434\u0438 \u0441\u0432\u043E\u0435\u0433\u043E \u043F\u043E\u043A\u0435\u043C\u043E\u043D\u0430 ...',
           });
         };
         exports.default = Input;
@@ -39365,23 +39379,49 @@ object-assign
           var _a = react_1.useState(''),
             inputValue = _a[0],
             setInputValue = _a[1];
-          var _b = react_1.useState({
-              limit: 9,
-            }),
-            query = _b[0],
-            setQuery = _b[1];
-          var debounceValue = useDebounce_1.default(inputValue, 500);
+          var _b = react_1.useState(''),
+            typeValue = _b[0],
+            setTypeValue = _b[1];
+          var _c = react_1.useState(false),
+            stateDropdownMenu = _c[0],
+            setStateDropdownMenu = _c[1];
+          var _d = react_1.useState({ limit: 100 }),
+            query = _d[0],
+            setQuery = _d[1];
+          var debounceValue = useDebounce_1.default(inputValue || typeValue, 500);
+          var _e = useData_1.default('getPokemons', query, [debounceValue]),
+            data = _e.data,
+            isLoading = _e.isLoading,
+            isError = _e.isError;
           var typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
-          var _c = useData_1.default('getPokemons', query, [debounceValue]),
-            data = _c.data,
-            isLoading = _c.isLoading,
-            isError = _c.isError;
           var onChange = function (ev) {
             setInputValue(ev.target.value);
             setQuery(function (state) {
               return __assign(__assign({}, state), { name: ev.target.value });
             });
           };
+          var dropdownTypes = react_1.useMemo(
+            function () {
+              var typesArray = new Map();
+              var toggleHandler = function (type, state) {
+                typesArray.has(type) ? typesArray.delete(type) : typesArray.set(type, '');
+                setTypeValue(type);
+                setStateDropdownMenu(state);
+                var types = Array.from(typesArray.keys()).join('|');
+                setQuery(function (state) {
+                  return __assign(__assign({}, state), { types: types });
+                });
+              };
+              return react_1.default.createElement(DropdownMenu_1.default, {
+                title: '\u0422\u0438\u043F',
+                types: typeFilter,
+                onToggle: toggleHandler,
+                isActiveMenu: stateDropdownMenu,
+                activeTypes: typesArray,
+              });
+            },
+            [stateDropdownMenu],
+          );
           if (isError) {
             return react_1.default.createElement('div', null, '\u041F\u0430\u0440\u0442\u0430\u043A!');
           }
@@ -39400,11 +39440,7 @@ object-assign
             react_1.default.createElement(
               'div',
               { className: Pokedex_module_scss_1.default.filters },
-              !isLoading &&
-                react_1.default.createElement(DropdownMenu_1.default, {
-                  title: '\u0422\u0438\u043F',
-                  types: typeFilter,
-                }),
+              !isLoading && data && dropdownTypes,
             ),
             react_1.default.createElement(
               'div',
