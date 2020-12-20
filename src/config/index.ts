@@ -1,30 +1,36 @@
+enum EEndpoint {
+  'getPokemons' = 'getPokemons',
+  'getPokemon' = 'getPokemon',
+  'getPokemonsByType' = 'getPokemonsByType',
+}
+
+type THttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'TRACE';
+
+interface IUri {
+  pathname: string;
+}
+
+interface IEndpoint {
+  method: THttpMethod;
+  uri: IUri;
+}
+
+interface IServer {
+  protocol: string;
+  host: string;
+}
+
+type TEndpoints = {
+  [key in EEndpoint]: IEndpoint;
+};
+
+interface IClient {
+  server: IServer;
+  endpoint: TEndpoints;
+}
+
 interface IConfig {
-  client: {
-    server: {
-      protocol: string;
-      host: string;
-    };
-    endpoint: {
-      getPokemons: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-      getPokemon: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-      getPokemonsByType: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-    };
-  };
+  client: IClient;
 }
 
 const config: IConfig = {

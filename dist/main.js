@@ -37004,7 +37004,6 @@ object-assign
             DropdownMenu_module_scss_1.default.menu,
             ((_b = {}), (_b[DropdownMenu_module_scss_1.default.active] = isActive), _b),
           );
-          react_1.useEffect(function () {}, []);
           return react_1.default.createElement(
             'div',
             null,
@@ -37024,9 +37023,6 @@ object-assign
                   null,
                   types.map(function (type) {
                     var _a;
-                    var _b = react_1.useState(false),
-                      item = _b[0],
-                      setItem = _b[1];
                     return react_1.default.createElement(
                       'li',
                       {
@@ -37035,10 +37031,7 @@ object-assign
                           ((_a = {}), (_a[DropdownMenu_module_scss_1.default.itemActive] = activeTypes.has(type)), _a),
                         ),
                         onClick: function () {
-                          setItem(function () {
-                            return !item;
-                          });
-                          onToggle(type, isActive);
+                          return onToggle(type, isActive);
                         },
                         key: type,
                       },
@@ -38431,6 +38424,12 @@ object-assign
         'use strict';
 
         Object.defineProperty(exports, '__esModule', { value: true });
+        var EEndpoint;
+        (function (EEndpoint) {
+          EEndpoint['getPokemons'] = 'getPokemons';
+          EEndpoint['getPokemon'] = 'getPokemon';
+          EEndpoint['getPokemonsByType'] = 'getPokemonsByType';
+        })(EEndpoint || (EEndpoint = {}));
         var config = {
           client: {
             server: {
@@ -39394,24 +39393,26 @@ object-assign
             isLoading = _e.isLoading,
             isError = _e.isError;
           var typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
+          var _f = react_1.useState(new Map()),
+            typesArray = _f[0],
+            setTypesArray = _f[1];
           var onChange = function (ev) {
             setInputValue(ev.target.value);
             setQuery(function (state) {
               return __assign(__assign({}, state), { name: ev.target.value });
             });
           };
+          var toggleHandler = function (type, state) {
+            typesArray.has(type) ? typesArray.delete(type) : setTypesArray(new Map(typesArray.set(type, '')));
+            setTypeValue(type);
+            setStateDropdownMenu(state);
+            var types = Array.from(typesArray.keys()).join('|');
+            setQuery(function (state) {
+              return __assign(__assign({}, state), { types: types });
+            });
+          };
           var dropdownTypes = react_1.useMemo(
             function () {
-              var typesArray = new Map();
-              var toggleHandler = function (type, state) {
-                typesArray.has(type) ? typesArray.delete(type) : typesArray.set(type, '');
-                setTypeValue(type);
-                setStateDropdownMenu(state);
-                var types = Array.from(typesArray.keys()).join('|');
-                setQuery(function (state) {
-                  return __assign(__assign({}, state), { types: types });
-                });
-              };
               return react_1.default.createElement(DropdownMenu_1.default, {
                 title: '\u0422\u0438\u043F',
                 types: typeFilter,
@@ -39420,7 +39421,7 @@ object-assign
                 activeTypes: typesArray,
               });
             },
-            [stateDropdownMenu],
+            [stateDropdownMenu, toggleHandler, typesArray, typeFilter],
           );
           if (isError) {
             return react_1.default.createElement('div', null, '\u041F\u0430\u0440\u0442\u0430\u043A!');
@@ -39437,11 +39438,7 @@ object-assign
               ' \u0443\u0436\u0435 \u0436\u0434\u0443\u0442 \u0442\u0435\u0431\u044F',
             ),
             react_1.default.createElement(Input_1.default, { inputValue: inputValue, onChange: onChange }),
-            react_1.default.createElement(
-              'div',
-              { className: Pokedex_module_scss_1.default.filters },
-              !isLoading && data && dropdownTypes,
-            ),
+            react_1.default.createElement('div', { className: Pokedex_module_scss_1.default.filters }, dropdownTypes),
             react_1.default.createElement(
               'div',
               { className: Pokedex_module_scss_1.default.wrapper },
@@ -39622,26 +39619,34 @@ object-assign
           };
         Object.defineProperty(exports, '__esModule', { value: true });
         var config_1 = __importDefault(__webpack_require__(/*! ../config */ './src/config/index.ts'));
-        function getUrlWithParamsConfig(endpointConfig, query) {
-          var url = __assign(
-            __assign(
-              __assign({}, config_1.default.client.server),
-              config_1.default.client.endpoint[endpointConfig].uri,
-            ),
-            { query: {} },
-          );
-          var tempQuery = __assign({}, query);
+        function getUrlWithParamsConfig(endpointConfig, params) {
+          var _a = config_1.default.client.endpoint[endpointConfig],
+            method = _a.method,
+            uri = _a.uri;
+          var body = {};
+          var apiConfigUri = __assign(__assign(__assign({}, config_1.default.client.server), uri), {
+            query: __assign({}, uri.query),
+          });
+          var query = __assign({}, params);
           var pathname = Object.keys(query).reduce(function (acc, val) {
             if (acc.indexOf('{' + val + '}') !== -1) {
               var result = acc.replace('{' + val + '}', query[val]);
-              delete tempQuery[val];
+              delete query[val];
               return result;
             }
             return acc;
-          }, url.pathname);
-          url.pathname = pathname;
-          url.query = __assign({}, query);
-          return url;
+          }, apiConfigUri.pathname);
+          apiConfigUri.pathname = pathname;
+          if (method === 'GET') {
+            apiConfigUri.query = __assign(__assign({}, apiConfigUri.query), query);
+          } else {
+            body = query;
+          }
+          return {
+            method: method,
+            uri: apiConfigUri,
+            body: body,
+          };
         }
         exports.default = getUrlWithParamsConfig;
 
@@ -39792,19 +39797,28 @@ object-assign
         );
         function req(endpoint, query) {
           return __awaiter(this, void 0, void 0, function () {
-            var uri, result;
-            return __generator(this, function (_a) {
-              switch (_a.label) {
+            var _a, method, uri, body, options, result;
+            return __generator(this, function (_b) {
+              switch (_b.label) {
                 case 0:
-                  uri = url_1.default.format(getUrlWithParamsConfig_1.default(endpoint, query));
+                  (_a = getUrlWithParamsConfig_1.default(endpoint, query)),
+                    (method = _a.method),
+                    (uri = _a.uri),
+                    (body = _a.body);
+                  options = {
+                    method: method,
+                  };
+                  if (Object.keys(body).length > 0) {
+                    options.body = JSON.stringify(body);
+                  }
                   return [
                     4 /*yield*/,
-                    fetch(uri).then(function (res) {
+                    fetch(url_1.default.format(uri)).then(function (res) {
                       return res.json();
                     }),
                   ];
                 case 1:
-                  result = _a.sent();
+                  result = _b.sent();
                   return [2 /*return*/, result];
               }
             });
