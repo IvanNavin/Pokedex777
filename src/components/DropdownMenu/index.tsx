@@ -6,7 +6,7 @@ import s from './DropdownMenu.module.scss';
 
 interface IDropdown {
   title: string;
-  types: string[];
+  types: string[] | null;
   activeTypes: Map<any, any>;
   isActiveMenu: boolean;
   onToggle: any;
@@ -26,7 +26,7 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
         </button>
         <nav ref={dropdownRef} className={dropClass}>
           <ul>
-            {types.map((type) => {
+            {types?.map((type) => {
               return (
                 <li
                   className={cn(s.item, { [s.itemActive]: activeTypes.has(type) })}

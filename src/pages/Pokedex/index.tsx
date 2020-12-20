@@ -1,4 +1,5 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import Pokemon from '../../components/PokemonCard';
 import Heading from '../../components/Heading';
 import Input from '../../components/Input';
@@ -10,6 +11,8 @@ import s from './Pokedex.module.scss';
 import DropdownMenu from '../../components/DropdownMenu';
 import { IPokemons, PokemonsRequest } from '../../interface/pokemons';
 import useDebounce from '../../hook/useDebounce';
+import { getPokemonsTypes, getPokemonsTypesIsLoading, getTypesAction } from '../../store/pokemon';
+import { EEndpoint } from '../../config/index';
 
 interface IQuery {
   limit: number;
@@ -17,14 +20,20 @@ interface IQuery {
 }
 
 const Pokedex = () => {
+  const dispatch = useDispatch();
+  const typeFilter = useSelector(getPokemonsTypes);
+  const typesIsLoading = useSelector(getPokemonsTypesIsLoading);
   const [inputValue, setInputValue] = useState<string>('');
   const [typeValue, setTypeValue] = useState<string>('');
   const [stateDropdownMenu, setStateDropdownMenu] = useState<boolean>(false);
   const [query, setQuery] = useState<IQuery>({ limit: 100 });
   const debounceValue = useDebounce(inputValue || typeValue, 500);
-  const { data, isLoading, isError } = useData<IPokemons>('getPokemons', query, [debounceValue]);
-  const typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
+  const { data, isLoading, isError } = useData<IPokemons>(EEndpoint.getPokemons, query, [debounceValue]);
   const [typesArray, setTypesArray] = useState(new Map());
+
+  useEffect(() => {
+    dispatch(getTypesAction());
+  }, []);
 
   const onChange = (ev: React.ChangeEvent<HTMLInputElement>): void => {
     setInputValue(ev.target.value);
@@ -65,11 +74,13 @@ const Pokedex = () => {
 
   return (
     <div className={s.root}>
-      <Heading tag="h3" className={s.title}>
-        {!isLoading && data && data.total} <b>Покемонов</b> уже ждут тебя
-      </Heading>
-      <Input inputValue={inputValue} onChange={onChange} />
-      <div className={s.filters}>{dropdownTypes}</div>
+      <div>
+        <Heading tag="h3" className={s.title}>
+          {!isLoading && data && data.total} <b>Покемонов</b> уже ждут тебя
+        </Heading>
+        <Input inputValue={inputValue} onChange={onChange} />
+        <div className={s.filters}>{!typesIsLoading && dropdownTypes}</div>
+      </div>
       <div className={s.wrapper}>
         {isLoading ? (
           <Loading className={s.loader} />

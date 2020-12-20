@@ -1,7 +1,8 @@
-enum EEndpoint {
-  'getPokemons' = 'getPokemons',
-  'getPokemon' = 'getPokemon',
-  'getPokemonsByType' = 'getPokemonsByType',
+export enum EEndpoint {
+  getPokemons = 'getPokemons',
+  getPokemon = 'getPokemon',
+  getPokemonsType = 'getPokemonsType',
+  getPokemonsByType = 'getPokemonsByType',
 }
 
 type THttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'TRACE';
@@ -40,19 +41,25 @@ const config: IConfig = {
       host: 'zar.hosthot.ru',
     },
     endpoint: {
-      getPokemons: {
+      [EEndpoint.getPokemons]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons',
         },
       },
-      getPokemon: {
+      [EEndpoint.getPokemon]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemon/{id}',
         },
       },
-      getPokemonsByType: {
+      [EEndpoint.getPokemonsType]: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/types',
+        },
+      },
+      [EEndpoint.getPokemonsByType]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons?types={type}',
