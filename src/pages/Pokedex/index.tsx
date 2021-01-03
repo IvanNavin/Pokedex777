@@ -80,7 +80,7 @@ const Pokedex = () => {
   }, [stateDropdownMenu, toggleHandler, typesArray, typeFilter]);
 
   const attackHandler = (data: any) => {
-    let { min, max } = data.value;
+    let { min, max } = data;
 
     if (min < 0) min = 0;
     if (max > 200) max = 200;
