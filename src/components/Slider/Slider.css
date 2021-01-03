@@ -1,0 +1,24 @@
+.slider {
+  display: inline-block;
+  width: 150px;
+  margin-bottom: 40px;
+}
+
+.slider span {
+  font-weight: 700;
+  vertical-align: middle;
+  font-size: 14px;
+  color: #000;
+  margin-bottom: 7px;
+  display: block;
+  text-transform: capitalize;
+}
+
+.slider .input-range__label--min,
+.slider .input-range__label--max {
+  display: none;
+}
+
+.input-range__label--value {
+  top: 0.5rem;
+}

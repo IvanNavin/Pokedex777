@@ -156,6 +156,119 @@
         /***/
       },
 
+    /***/ './node_modules/autobind-decorator/lib/index.js':
+      /*!******************************************************!*\
+  !*** ./node_modules/autobind-decorator/lib/index.js ***!
+  \******************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+        /**
+         * @copyright 2015, Andrey Popp <8mayday@gmail.com>
+         *
+         * The decorator may be used on classes or methods
+         * ```
+         * @autobind
+         * class FullBound {}
+         *
+         * class PartBound {
+         *   @autobind
+         *   method () {}
+         * }
+         * ```
+         */
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports['default'] = autobind;
+
+        function autobind() {
+          for (var _len = arguments.length, args = Array(_len), _key = 0; _key < _len; _key++) {
+            args[_key] = arguments[_key];
+          }
+
+          if (args.length === 1) {
+            return boundClass.apply(undefined, args);
+          } else {
+            return boundMethod.apply(undefined, args);
+          }
+        }
+
+        /**
+         * Use boundMethod to bind all methods on the target.prototype
+         */
+        function boundClass(target) {
+          // (Using reflect to get all keys including symbols)
+          var keys = undefined;
+          // Use Reflect if exists
+          if (typeof Reflect !== 'undefined' && typeof Reflect.ownKeys === 'function') {
+            keys = Reflect.ownKeys(target.prototype);
+          } else {
+            keys = Object.getOwnPropertyNames(target.prototype);
+            // use symbols if support is provided
+            if (typeof Object.getOwnPropertySymbols === 'function') {
+              keys = keys.concat(Object.getOwnPropertySymbols(target.prototype));
+            }
+          }
+
+          keys.forEach(function (key) {
+            // Ignore special case target method
+            if (key === 'constructor') {
+              return;
+            }
+
+            var descriptor = Object.getOwnPropertyDescriptor(target.prototype, key);
+
+            // Only methods need binding
+            if (typeof descriptor.value === 'function') {
+              Object.defineProperty(target.prototype, key, boundMethod(target, key, descriptor));
+            }
+          });
+          return target;
+        }
+
+        /**
+         * Return a descriptor removing the value and returning a getter
+         * The getter will return a .bind version of the function
+         * and memoize the result against a symbol on the instance
+         */
+        function boundMethod(target, key, descriptor) {
+          var fn = descriptor.value;
+
+          if (typeof fn !== 'function') {
+            throw new Error('@autobind decorator can only be applied to methods not: ' + typeof fn);
+          }
+
+          // In IE11 calling Object.defineProperty has a side-effect of evaluating the
+          // getter for the property which is being replaced. This causes infinite
+          // recursion and an "Out of stack space" error.
+          var definingProperty = false;
+
+          return {
+            configurable: true,
+            get: function get() {
+              if (definingProperty || this === target.prototype || this.hasOwnProperty(key)) {
+                return fn;
+              }
+
+              var boundFn = fn.bind(this);
+              definingProperty = true;
+              Object.defineProperty(this, key, {
+                value: boundFn,
+                configurable: true,
+                writable: true,
+              });
+              definingProperty = false;
+              return boundFn;
+            },
+          };
+        }
+        module.exports = exports['default'];
+
+        /***/
+      },
+
     /***/ './node_modules/classnames/index.js':
       /*!******************************************!*\
   !*** ./node_modules/classnames/index.js ***!
@@ -216,6 +329,59 @@
           } else {
           }
         })();
+
+        /***/
+      },
+
+    /***/ './node_modules/css-loader/dist/cjs.js!./node_modules/react-input-range/lib/css/index.css':
+      /*!************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js!./node_modules/react-input-range/lib/css/index.css ***!
+  \************************************************************************************************/
+      /*! exports provided: default */
+      /***/ function (module, __webpack_exports__, __webpack_require__) {
+        'use strict';
+        __webpack_require__.r(__webpack_exports__);
+        /* harmony import */ var _css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+          /*! ../../../css-loader/dist/runtime/cssWithMappingToString.js */ './node_modules/css-loader/dist/runtime/cssWithMappingToString.js',
+        );
+        /* harmony import */ var _css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
+          _css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__,
+        );
+        /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+          /*! ../../../css-loader/dist/runtime/api.js */ './node_modules/css-loader/dist/runtime/api.js',
+        );
+        /* harmony import */ var _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(
+          _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__,
+        );
+        // Imports
+
+        var ___CSS_LOADER_EXPORT___ = _css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(
+          _css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a,
+        );
+        // Module
+        ___CSS_LOADER_EXPORT___.push([
+          module.i,
+          '.input-range__slider {\n  appearance: none;\n  background: #3f51b5;\n  border: 1px solid #3f51b5;\n  border-radius: 100%;\n  cursor: pointer;\n  display: block;\n  height: 1rem;\n  margin-left: -0.5rem;\n  margin-top: -0.65rem;\n  outline: none;\n  position: absolute;\n  top: 50%;\n  transition: transform 0.3s ease-out, box-shadow 0.3s ease-out;\n  width: 1rem; }\n  .input-range__slider:active {\n    transform: scale(1.3); }\n  .input-range__slider:focus {\n    box-shadow: 0 0 0 5px rgba(63, 81, 181, 0.2); }\n  .input-range--disabled .input-range__slider {\n    background: #cccccc;\n    border: 1px solid #cccccc;\n    box-shadow: none;\n    transform: none; }\n\n.input-range__slider-container {\n  transition: left 0.3s ease-out; }\n\n.input-range__label {\n  color: #aaaaaa;\n  font-family: "Helvetica Neue", san-serif;\n  font-size: 0.8rem;\n  transform: translateZ(0);\n  white-space: nowrap; }\n\n.input-range__label--min,\n.input-range__label--max {\n  bottom: -1.4rem;\n  position: absolute; }\n\n.input-range__label--min {\n  left: 0; }\n\n.input-range__label--max {\n  right: 0; }\n\n.input-range__label--value {\n  position: absolute;\n  top: -1.8rem; }\n\n.input-range__label-container {\n  left: -50%;\n  position: relative; }\n  .input-range__label--max .input-range__label-container {\n    left: 50%; }\n\n.input-range__track {\n  background: #eeeeee;\n  border-radius: 0.3rem;\n  cursor: pointer;\n  display: block;\n  height: 0.3rem;\n  position: relative;\n  transition: left 0.3s ease-out, width 0.3s ease-out; }\n  .input-range--disabled .input-range__track {\n    background: #eeeeee; }\n\n.input-range__track--background {\n  left: 0;\n  margin-top: -0.15rem;\n  position: absolute;\n  right: 0;\n  top: 50%; }\n\n.input-range__track--active {\n  background: #3f51b5; }\n\n.input-range {\n  height: 1rem;\n  position: relative;\n  width: 100%; }\n\n/*# sourceMappingURL=index.css.map */',
+          '',
+          {
+            version: 3,
+            sources: [
+              'webpack://./node_modules/react-input-range/src/scss/input-range/_input-range-slider.scss',
+              'webpack://./node_modules/react-input-range/src/scss/input-range/_input-range-variables.scss',
+              'webpack://./node_modules/react-input-range/src/scss/input-range/_input-range-label.scss',
+              'webpack://./node_modules/react-input-range/src/scss/input-range/_input-range-label-container.scss',
+              'webpack://./node_modules/react-input-range/src/scss/input-range/_input-range-track.scss',
+              'webpack://./node_modules/react-input-range/src/scss/input-range/input-range.scss',
+              'webpack://./node_modules/react-input-range/lib/css/index.css',
+            ],
+            names: [],
+            mappings:
+              'AAAA;EACE,gBAAgB;EAChB,mBCDiC;EDEjC,yBCFiC;EDGjC,mBAAmB;EACnB,eAAe;EACf,cAAc;EACd,YCI8B;EDH9B,oBAA2C;EAC3C,oBAA4E;EAC5E,aAAa;EACb,kBAAkB;EAClB,QAAQ;EACR,6DCA+E;EDC/E,WCF6B,EAAA;EDZ/B;IAiBI,qBCF4C,EAAA;EDfhD;IAqBI,4CCX2F,EAAA;EDc7F;IACE,mBCrBgC;IDsBhC,yBCtBgC;IDuBhC,gBAAgB;IAChB,eAAe,EAAA;;AAInB;EACE,8BCnB0D,EAAA;;ACd5D;EACE,cDCiC;ECAjC,wCDFmD;ECGnD,iBDkBkC;ECjBlC,wBAAwB;EACxB,mBAAmB,EAAA;;AAGrB;;EAEE,eDYyC;ECXzC,kBAAkB,EAAA;;AAGpB;EACE,OAAO,EAAA;;AAGT;EACE,QAAQ,EAAA;;AAGV;EACE,kBAAkB;EAClB,YDD4C,EAAA;;AEvB9C;EACE,UAAU;EACV,kBAAkB,EAAA;EAElB;IACE,SAAS,EAAA;;ACLb;EACE,mBHEuC;EGDvC,qBHyB+B;EGxB/B,eAAe;EACf,cAAc;EACd,cHsB+B;EGrB/B,kBAAkB;EAClB,mDHqBoE,EAAA;EGnBpE;IACE,mBHPqC,EAAA;;AGWzC;EACE,OAAO;EACP,oBAA4C;EAC5C,kBAAkB;EAClB,QAAQ;EACR,QAAQ,EAAA;;AAGV;EACE,mBHtBiC,EAAA;;AIKnC;EACE,YJI8B;EIH9B,kBAAkB;EAClB,WAAW,EAAA;;ACyEb,oCAAoC',
+            sourceRoot: '',
+          },
+        ]);
+        // Exports
+        /* harmony default export */ __webpack_exports__['default'] = ___CSS_LOADER_EXPORT___;
 
         /***/
       },
@@ -822,6 +988,57 @@
         /***/
       },
 
+    /***/ './node_modules/css-loader/dist/cjs.js?!./node_modules/sass-loader/dist/cjs.js!./src/components/Slider/Slider.module.scss':
+      /*!*****************************************************************************************************************************************!*\
+  !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/sass-loader/dist/cjs.js!./src/components/Slider/Slider.module.scss ***!
+  \*****************************************************************************************************************************************/
+      /*! exports provided: default */
+      /***/ function (module, __webpack_exports__, __webpack_require__) {
+        'use strict';
+        __webpack_require__.r(__webpack_exports__);
+        /* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+          /*! ../../../node_modules/css-loader/dist/runtime/cssWithMappingToString.js */ './node_modules/css-loader/dist/runtime/cssWithMappingToString.js',
+        );
+        /* harmony import */ var _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
+          _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0__,
+        );
+        /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+          /*! ../../../node_modules/css-loader/dist/runtime/api.js */ './node_modules/css-loader/dist/runtime/api.js',
+        );
+        /* harmony import */ var _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/ __webpack_require__.n(
+          _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1__,
+        );
+        // Imports
+
+        var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_1___default()(
+          _node_modules_css_loader_dist_runtime_cssWithMappingToString_js__WEBPACK_IMPORTED_MODULE_0___default.a,
+        );
+        // Module
+        ___CSS_LOADER_EXPORT___.push([
+          module.i,
+          '.Slider-module__slider__oqZ18 {\n  display: inline-block;\n  width: 150px;\n  margin-bottom: 40px; }\n  .Slider-module__slider__oqZ18 label {\n    font-weight: 700;\n    vertical-align: middle;\n    font-size: 14px;\n    color: #000;\n    margin-bottom: 15px;\n    display: block;\n    text-transform: capitalize; }\n',
+          '',
+          {
+            version: 3,
+            sources: ['webpack://./src/components/Slider/Slider.module.scss'],
+            names: [],
+            mappings:
+              'AAAA;EACE,qBAAqB;EACrB,YAAY;EACZ,mBAAmB,EAAA;EAHrB;IAKI,gBAAgB;IAChB,sBAAsB;IACtB,eAAe;IACf,WAAW;IACX,mBAAmB;IACnB,cAAc;IACd,0BAA0B,EAAA',
+            sourcesContent: [
+              '.slider {\n  display: inline-block;\n  width: 150px;\n  margin-bottom: 40px;\n  label {\n    font-weight: 700;\n    vertical-align: middle;\n    font-size: 14px;\n    color: #000;\n    margin-bottom: 15px;\n    display: block;\n    text-transform: capitalize;\n  }\n\n}',
+            ],
+            sourceRoot: '',
+          },
+        ]);
+        // Exports
+        ___CSS_LOADER_EXPORT___.locals = {
+          slider: 'Slider-module__slider__oqZ18',
+        };
+        /* harmony default export */ __webpack_exports__['default'] = ___CSS_LOADER_EXPORT___;
+
+        /***/
+      },
+
     /***/ './node_modules/css-loader/dist/cjs.js?!./node_modules/sass-loader/dist/cjs.js!./src/pages/404/404.module.scss':
       /*!******************************************************************************************************************************!*\
   !*** ./node_modules/css-loader/dist/cjs.js??ref--6-1!./node_modules/sass-loader/dist/cjs.js!./src/pages/404/404.module.scss ***!
@@ -961,16 +1178,16 @@
         // Module
         ___CSS_LOADER_EXPORT___.push([
           module.i,
-          '.Pokedex-module__root__19xly {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: calc(100vh - 160px); }\n\n.Pokedex-module__title__3smmw {\n  text-align: center;\n  font-weight: 400;\n  margin: 10px; }\n  .Pokedex-module__title__3smmw b {\n    font-weight: 700; }\n\n.Pokedex-module__wrapper__3UMOe {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  align-content: center;\n  flex-wrap: wrap;\n  margin: 0 auto; }\n\n.Pokedex-module__loader__1kaFA {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  animation: Pokedex-module__rotating__2Bpj3 0.2s ease-in-out infinite; }\n\n.Pokedex-module__filters__Ax3r6 {\n  max-width: 1088px;\n  width: 100%;\n  margin: 0 auto; }\n\n@keyframes Pokedex-module__rotating__2Bpj3 {\n  from {\n    transform: rotate(0deg); }\n  to {\n    transform: rotate(360deg); } }\n',
+          '.Pokedex-module__root__19xly {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: calc(100vh - 160px); }\n\n.Pokedex-module__title__3smmw {\n  text-align: center;\n  font-weight: 400;\n  margin: 10px; }\n  .Pokedex-module__title__3smmw b {\n    font-weight: 700; }\n\n.Pokedex-module__wrapper__3UMOe {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  align-content: center;\n  flex-wrap: wrap;\n  margin: 0 auto; }\n\n.Pokedex-module__loader__1kaFA {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  animation: Pokedex-module__rotating__2Bpj3 0.2s ease-in-out infinite; }\n\n.Pokedex-module__filters__Ax3r6 {\n  display: flex;\n  justify-content: space-around;\n  max-width: 1088px;\n  width: 100%;\n  margin: 28px auto 0; }\n\n@keyframes Pokedex-module__rotating__2Bpj3 {\n  from {\n    transform: rotate(0deg); }\n  to {\n    transform: rotate(360deg); } }\n',
           '',
           {
             version: 3,
             sources: ['webpack://./src/pages/Pokedex/Pokedex.module.scss'],
             names: [],
             mappings:
-              'AAAA;EACE,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,8BAA8B;EAC9B,2BAA2B,EAAA;;AAG7B;EACE,kBAAkB;EAClB,gBAAgB;EAChB,YAAY,EAAA;EAHd;IAKI,gBAAgB,EAAA;;AAIpB;EACE,aAAa;EACb,6BAA6B;EAC7B,mBAAmB;EACnB,qBAAqB;EACrB,eAAe;EACf,cAAc,EAAA;;AAGhB;EACE,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,oEAA6C,EAAA;;AAG/C;EACE,iBAAiB;EACjB,WAAW;EACX,cAAc,EAAA;;AAGhB;EACE;IACE,uBAAuB,EAAA;EAEzB;IACE,yBAAyB,EAAA,EAAA',
+              'AAAA;EACE,kBAAkB;EAClB,aAAa;EACb,sBAAsB;EACtB,8BAA8B;EAC9B,2BAA2B,EAAA;;AAG7B;EACE,kBAAkB;EAClB,gBAAgB;EAChB,YAAY,EAAA;EAHd;IAKI,gBAAgB,EAAA;;AAIpB;EACE,aAAa;EACb,6BAA6B;EAC7B,mBAAmB;EACnB,qBAAqB;EACrB,eAAe;EACf,cAAc,EAAA;;AAGhB;EACE,kBAAkB;EAClB,QAAQ;EACR,SAAS;EACT,gCAAgC;EAChC,oEAA6C,EAAA;;AAG/C;EACE,aAAa;EACb,6BAA6B;EAC7B,iBAAiB;EACjB,WAAW;EACX,mBAAmB,EAAA;;AAGrB;EACE;IACE,uBAAuB,EAAA;EAEzB;IACE,yBAAyB,EAAA,EAAA',
             sourcesContent: [
-              '.root {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: calc(100vh - 160px);\n}\n\n.title {\n  text-align: center;\n  font-weight: 400;\n  margin: 10px;\n  b {\n    font-weight: 700;\n  }\n}\n\n.wrapper {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  align-content: center;\n  flex-wrap: wrap;\n  margin: 0 auto;\n}\n\n.loader {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  animation: rotating 0.2s ease-in-out infinite;\n}\n\n.filters {\n  max-width: 1088px;\n  width: 100%;\n  margin: 0 auto;\n}\n\n@keyframes rotating {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n',
+              '.root {\n  position: relative;\n  display: flex;\n  flex-direction: column;\n  justify-content: space-between;\n  height: calc(100vh - 160px);\n}\n\n.title {\n  text-align: center;\n  font-weight: 400;\n  margin: 10px;\n  b {\n    font-weight: 700;\n  }\n}\n\n.wrapper {\n  display: flex;\n  justify-content: space-around;\n  align-items: center;\n  align-content: center;\n  flex-wrap: wrap;\n  margin: 0 auto;\n}\n\n.loader {\n  position: absolute;\n  top: 50%;\n  left: 50%;\n  transform: translate(-50%, -50%);\n  animation: rotating 0.2s ease-in-out infinite;\n}\n\n.filters {\n  display: flex;\n  justify-content: space-around;\n  max-width: 1088px;\n  width: 100%;\n  margin: 28px auto 0;\n}\n\n@keyframes rotating {\n  from {\n    transform: rotate(0deg);\n  }\n  to {\n    transform: rotate(360deg);\n  }\n}\n',
             ],
             sourceRoot: '',
           },
@@ -32977,6 +33194,2828 @@ object-assign
         /***/
       },
 
+    /***/ './node_modules/react-input-range/lib/css/index.css':
+      /*!**********************************************************!*\
+  !*** ./node_modules/react-input-range/lib/css/index.css ***!
+  \**********************************************************/
+      /*! exports provided: default */
+      /***/ function (module, __webpack_exports__, __webpack_require__) {
+        'use strict';
+        __webpack_require__.r(__webpack_exports__);
+        /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+          /*! ../../../style-loader/dist/runtime/injectStylesIntoStyleTag.js */ './node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js',
+        );
+        /* harmony import */ var _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
+          _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__,
+        );
+        /* harmony import */ var _css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+          /*! !../../../css-loader/dist/cjs.js!./index.css */ './node_modules/css-loader/dist/cjs.js!./node_modules/react-input-range/lib/css/index.css',
+        );
+
+        var options = {};
+
+        options.insert = 'head';
+        options.singleton = false;
+
+        var update = _style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(
+          _css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_1__['default'],
+          options,
+        );
+
+        /* harmony default export */ __webpack_exports__['default'] =
+          _css_loader_dist_cjs_js_index_css__WEBPACK_IMPORTED_MODULE_1__['default'].locals || {};
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/index.js':
+      /*!********************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/index.js ***!
+  \********************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+
+        var _inputRange = __webpack_require__(
+          /*! ./input-range/input-range */ './node_modules/react-input-range/lib/js/input-range/input-range.js',
+        );
+
+        var _inputRange2 = _interopRequireDefault(_inputRange);
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        /**
+         * @ignore
+         * @typedef {Object} ClientRect
+         * @property {number} height
+         * @property {number} left
+         * @property {number} top
+         * @property {number} width
+         */
+
+        /**
+         * @typedef {Object} InputRangeClassNames
+         * @property {string} activeTrack
+         * @property {string} disabledInputRange
+         * @property {string} inputRange
+         * @property {string} labelContainer
+         * @property {string} maxLabel
+         * @property {string} minLabel
+         * @property {string} slider
+         * @property {string} sliderContainer
+         * @property {string} track
+         * @property {string} valueLabel
+         */
+
+        /**
+         * @typedef {Function} LabelFormatter
+         * @param {number} value
+         * @param {string} type
+         * @return {string}
+         */
+
+        /**
+         * @ignore
+         * @typedef {Object} Point
+         * @property {number} x
+         * @property {number} y
+         */
+
+        /**
+         * @typedef {Object} Range
+         * @property {number} min - Min value
+         * @property {number} max - Max value
+         */
+
+        exports.default = _inputRange2.default;
+        module.exports = exports['default'];
+        //# sourceMappingURL=index.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/default-class-names.js':
+      /*!**********************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/default-class-names.js ***!
+  \**********************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        /**
+         * Default CSS class names
+         * @ignore
+         * @type {InputRangeClassNames}
+         */
+        var DEFAULT_CLASS_NAMES = {
+          activeTrack: 'input-range__track input-range__track--active',
+          disabledInputRange: 'input-range input-range--disabled',
+          inputRange: 'input-range',
+          labelContainer: 'input-range__label-container',
+          maxLabel: 'input-range__label input-range__label--max',
+          minLabel: 'input-range__label input-range__label--min',
+          slider: 'input-range__slider',
+          sliderContainer: 'input-range__slider-container',
+          track: 'input-range__track input-range__track--background',
+          valueLabel: 'input-range__label input-range__label--value',
+        };
+
+        exports.default = DEFAULT_CLASS_NAMES;
+        module.exports = exports['default'];
+        //# sourceMappingURL=default-class-names.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/input-range.js':
+      /*!**************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/input-range.js ***!
+  \**************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = undefined;
+
+        var _createClass = (function () {
+          function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+              var descriptor = props[i];
+              descriptor.enumerable = descriptor.enumerable || false;
+              descriptor.configurable = true;
+              if ('value' in descriptor) descriptor.writable = true;
+              Object.defineProperty(target, descriptor.key, descriptor);
+            }
+          }
+          return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+          };
+        })();
+
+        var _desc, _value, _class;
+
+        var _react = __webpack_require__(/*! react */ './node_modules/react/index.js');
+
+        var _react2 = _interopRequireDefault(_react);
+
+        var _propTypes = __webpack_require__(/*! prop-types */ './node_modules/prop-types/index.js');
+
+        var _propTypes2 = _interopRequireDefault(_propTypes);
+
+        var _autobindDecorator = __webpack_require__(
+          /*! autobind-decorator */ './node_modules/autobind-decorator/lib/index.js',
+        );
+
+        var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+        var _valueTransformer = __webpack_require__(
+          /*! ./value-transformer */ './node_modules/react-input-range/lib/js/input-range/value-transformer.js',
+        );
+
+        var valueTransformer = _interopRequireWildcard(_valueTransformer);
+
+        var _defaultClassNames = __webpack_require__(
+          /*! ./default-class-names */ './node_modules/react-input-range/lib/js/input-range/default-class-names.js',
+        );
+
+        var _defaultClassNames2 = _interopRequireDefault(_defaultClassNames);
+
+        var _label = __webpack_require__(/*! ./label */ './node_modules/react-input-range/lib/js/input-range/label.js');
+
+        var _label2 = _interopRequireDefault(_label);
+
+        var _rangePropType = __webpack_require__(
+          /*! ./range-prop-type */ './node_modules/react-input-range/lib/js/input-range/range-prop-type.js',
+        );
+
+        var _rangePropType2 = _interopRequireDefault(_rangePropType);
+
+        var _valuePropType = __webpack_require__(
+          /*! ./value-prop-type */ './node_modules/react-input-range/lib/js/input-range/value-prop-type.js',
+        );
+
+        var _valuePropType2 = _interopRequireDefault(_valuePropType);
+
+        var _slider = __webpack_require__(
+          /*! ./slider */ './node_modules/react-input-range/lib/js/input-range/slider.js',
+        );
+
+        var _slider2 = _interopRequireDefault(_slider);
+
+        var _track = __webpack_require__(/*! ./track */ './node_modules/react-input-range/lib/js/input-range/track.js');
+
+        var _track2 = _interopRequireDefault(_track);
+
+        var _utils = __webpack_require__(/*! ../utils */ './node_modules/react-input-range/lib/js/utils/index.js');
+
+        var _keyCodes = __webpack_require__(
+          /*! ./key-codes */ './node_modules/react-input-range/lib/js/input-range/key-codes.js',
+        );
+
+        function _interopRequireWildcard(obj) {
+          if (obj && obj.__esModule) {
+            return obj;
+          } else {
+            var newObj = {};
+            if (obj != null) {
+              for (var key in obj) {
+                if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key];
+              }
+            }
+            newObj.default = obj;
+            return newObj;
+          }
+        }
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+            throw new TypeError('Cannot call a class as a function');
+          }
+        }
+
+        function _possibleConstructorReturn(self, call) {
+          if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+          }
+          return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
+        }
+
+        function _inherits(subClass, superClass) {
+          if (typeof superClass !== 'function' && superClass !== null) {
+            throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+          }
+          subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
+          });
+          if (superClass)
+            Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
+        }
+
+        function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+          var desc = {};
+          Object['ke' + 'ys'](descriptor).forEach(function (key) {
+            desc[key] = descriptor[key];
+          });
+          desc.enumerable = !!desc.enumerable;
+          desc.configurable = !!desc.configurable;
+
+          if ('value' in desc || desc.initializer) {
+            desc.writable = true;
+          }
+
+          desc = decorators
+            .slice()
+            .reverse()
+            .reduce(function (desc, decorator) {
+              return decorator(target, property, desc) || desc;
+            }, desc);
+
+          if (context && desc.initializer !== void 0) {
+            desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+            desc.initializer = undefined;
+          }
+
+          if (desc.initializer === void 0) {
+            Object['define' + 'Property'](target, property, desc);
+            desc = null;
+          }
+
+          return desc;
+        }
+
+        /**
+         * A React component that allows users to input numeric values within a range
+         * by dragging its sliders.
+         */
+        var InputRange =
+          ((_class = (function (_React$Component) {
+            _inherits(InputRange, _React$Component);
+
+            _createClass(InputRange, null, [
+              {
+                key: 'propTypes',
+
+                /**
+                 * @ignore
+                 * @override
+                 * @return {Object}
+                 */
+                get: function get() {
+                  return {
+                    allowSameValues: _propTypes2.default.bool,
+                    ariaLabelledby: _propTypes2.default.string,
+                    ariaControls: _propTypes2.default.string,
+                    classNames: _propTypes2.default.objectOf(_propTypes2.default.string),
+                    disabled: _propTypes2.default.bool,
+                    draggableTrack: _propTypes2.default.bool,
+                    formatLabel: _propTypes2.default.func,
+                    maxValue: _rangePropType2.default,
+                    minValue: _rangePropType2.default,
+                    name: _propTypes2.default.string,
+                    onChangeStart: _propTypes2.default.func,
+                    onChange: _propTypes2.default.func.isRequired,
+                    onChangeComplete: _propTypes2.default.func,
+                    step: _propTypes2.default.number,
+                    value: _valuePropType2.default,
+                  };
+                },
+
+                /**
+                 * @ignore
+                 * @override
+                 * @return {Object}
+                 */
+              },
+              {
+                key: 'defaultProps',
+                get: function get() {
+                  return {
+                    allowSameValues: false,
+                    classNames: _defaultClassNames2.default,
+                    disabled: false,
+                    maxValue: 10,
+                    minValue: 0,
+                    step: 1,
+                  };
+                },
+
+                /**
+                 * @param {Object} props
+                 * @param {boolean} [props.allowSameValues]
+                 * @param {string} [props.ariaLabelledby]
+                 * @param {string} [props.ariaControls]
+                 * @param {InputRangeClassNames} [props.classNames]
+                 * @param {boolean} [props.disabled = false]
+                 * @param {Function} [props.formatLabel]
+                 * @param {number|Range} [props.maxValue = 10]
+                 * @param {number|Range} [props.minValue = 0]
+                 * @param {string} [props.name]
+                 * @param {string} props.onChange
+                 * @param {Function} [props.onChangeComplete]
+                 * @param {Function} [props.onChangeStart]
+                 * @param {number} [props.step = 1]
+                 * @param {number|Range} props.value
+                 */
+              },
+            ]);
+
+            function InputRange(props) {
+              _classCallCheck(this, InputRange);
+
+              /**
+               * @private
+               * @type {?number}
+               */
+              var _this = _possibleConstructorReturn(
+                this,
+                (InputRange.__proto__ || Object.getPrototypeOf(InputRange)).call(this, props),
+              );
+
+              _this.startValue = null;
+
+              /**
+               * @private
+               * @type {?Component}
+               */
+              _this.node = null;
+
+              /**
+               * @private
+               * @type {?Component}
+               */
+              _this.trackNode = null;
+
+              /**
+               * @private
+               * @type {bool}
+               */
+              _this.isSliderDragging = false;
+
+              /**
+               * @private
+               * @type {?string}
+               */
+              _this.lastKeyMoved = null;
+              return _this;
+            }
+
+            /**
+             * @ignore
+             * @override
+             * @return {void}
+             */
+
+            _createClass(InputRange, [
+              {
+                key: 'componentWillUnmount',
+                value: function componentWillUnmount() {
+                  this.removeDocumentMouseUpListener();
+                  this.removeDocumentTouchEndListener();
+                },
+
+                /**
+                 * Return the CSS class name of the component
+                 * @private
+                 * @return {string}
+                 */
+              },
+              {
+                key: 'getComponentClassName',
+                value: function getComponentClassName() {
+                  if (!this.props.disabled) {
+                    return this.props.classNames.inputRange;
+                  }
+
+                  return this.props.classNames.disabledInputRange;
+                },
+
+                /**
+                 * Return the bounding rect of the track
+                 * @private
+                 * @return {ClientRect}
+                 */
+              },
+              {
+                key: 'getTrackClientRect',
+                value: function getTrackClientRect() {
+                  return this.trackNode.getClientRect();
+                },
+
+                /**
+                 * Return the slider key closest to a point
+                 * @private
+                 * @param {Point} position
+                 * @return {string}
+                 */
+              },
+              {
+                key: 'getKeyByPosition',
+                value: function getKeyByPosition(position) {
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var positions = valueTransformer.getPositionsFromValues(
+                    values,
+                    this.props.minValue,
+                    this.props.maxValue,
+                    this.getTrackClientRect(),
+                  );
+
+                  if (this.isMultiValue()) {
+                    var distanceToMin = (0, _utils.distanceTo)(position, positions.min);
+                    var distanceToMax = (0, _utils.distanceTo)(position, positions.max);
+
+                    if (distanceToMin < distanceToMax) {
+                      return 'min';
+                    }
+                  }
+
+                  return 'max';
+                },
+
+                /**
+                 * Return all the slider keys
+                 * @private
+                 * @return {string[]}
+                 */
+              },
+              {
+                key: 'getKeys',
+                value: function getKeys() {
+                  if (this.isMultiValue()) {
+                    return ['min', 'max'];
+                  }
+
+                  return ['max'];
+                },
+
+                /**
+                 * Return true if the difference between the new and the current value is
+                 * greater or equal to the step amount of the component
+                 * @private
+                 * @param {Range} values
+                 * @return {boolean}
+                 */
+              },
+              {
+                key: 'hasStepDifference',
+                value: function hasStepDifference(values) {
+                  var currentValues = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+
+                  return (
+                    (0, _utils.length)(values.min, currentValues.min) >= this.props.step ||
+                    (0, _utils.length)(values.max, currentValues.max) >= this.props.step
+                  );
+                },
+
+                /**
+                 * Return true if the component accepts a min and max value
+                 * @private
+                 * @return {boolean}
+                 */
+              },
+              {
+                key: 'isMultiValue',
+                value: function isMultiValue() {
+                  return (0, _utils.isObject)(this.props.value);
+                },
+
+                /**
+                 * Return true if the range is within the max and min value of the component
+                 * @private
+                 * @param {Range} values
+                 * @return {boolean}
+                 */
+              },
+              {
+                key: 'isWithinRange',
+                value: function isWithinRange(values) {
+                  if (this.isMultiValue()) {
+                    return values.min >= this.props.minValue &&
+                      values.max <= this.props.maxValue &&
+                      this.props.allowSameValues
+                      ? values.min <= values.max
+                      : values.min < values.max;
+                  }
+
+                  return values.max >= this.props.minValue && values.max <= this.props.maxValue;
+                },
+
+                /**
+                 * Return true if the new value should trigger a render
+                 * @private
+                 * @param {Range} values
+                 * @return {boolean}
+                 */
+              },
+              {
+                key: 'shouldUpdate',
+                value: function shouldUpdate(values) {
+                  return this.isWithinRange(values) && this.hasStepDifference(values);
+                },
+
+                /**
+                 * Update the position of a slider
+                 * @private
+                 * @param {string} key
+                 * @param {Point} position
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'updatePosition',
+                value: function updatePosition(key, position) {
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var positions = valueTransformer.getPositionsFromValues(
+                    values,
+                    this.props.minValue,
+                    this.props.maxValue,
+                    this.getTrackClientRect(),
+                  );
+
+                  positions[key] = position;
+                  this.lastKeyMoved = key;
+
+                  this.updatePositions(positions);
+                },
+
+                /**
+                 * Update the positions of multiple sliders
+                 * @private
+                 * @param {Object} positions
+                 * @param {Point} positions.min
+                 * @param {Point} positions.max
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'updatePositions',
+                value: function updatePositions(positions) {
+                  var values = {
+                    min: valueTransformer.getValueFromPosition(
+                      positions.min,
+                      this.props.minValue,
+                      this.props.maxValue,
+                      this.getTrackClientRect(),
+                    ),
+                    max: valueTransformer.getValueFromPosition(
+                      positions.max,
+                      this.props.minValue,
+                      this.props.maxValue,
+                      this.getTrackClientRect(),
+                    ),
+                  };
+
+                  var transformedValues = {
+                    min: valueTransformer.getStepValueFromValue(values.min, this.props.step),
+                    max: valueTransformer.getStepValueFromValue(values.max, this.props.step),
+                  };
+
+                  this.updateValues(transformedValues);
+                },
+
+                /**
+                 * Update the value of a slider
+                 * @private
+                 * @param {string} key
+                 * @param {number} value
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'updateValue',
+                value: function updateValue(key, value) {
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+
+                  values[key] = value;
+
+                  this.updateValues(values);
+                },
+
+                /**
+                 * Update the values of multiple sliders
+                 * @private
+                 * @param {Range|number} values
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'updateValues',
+                value: function updateValues(values) {
+                  if (!this.shouldUpdate(values)) {
+                    return;
+                  }
+
+                  this.props.onChange(this.isMultiValue() ? values : values.max);
+                },
+
+                /**
+                 * Increment the value of a slider by key name
+                 * @private
+                 * @param {string} key
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'incrementValue',
+                value: function incrementValue(key) {
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var value = values[key] + this.props.step;
+
+                  this.updateValue(key, value);
+                },
+
+                /**
+                 * Decrement the value of a slider by key name
+                 * @private
+                 * @param {string} key
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'decrementValue',
+                value: function decrementValue(key) {
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var value = values[key] - this.props.step;
+
+                  this.updateValue(key, value);
+                },
+
+                /**
+                 * Listen to mouseup event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentMouseUpListener',
+                value: function addDocumentMouseUpListener() {
+                  this.removeDocumentMouseUpListener();
+                  this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * Listen to touchend event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentTouchEndListener',
+                value: function addDocumentTouchEndListener() {
+                  this.removeDocumentTouchEndListener();
+                  this.node.ownerDocument.addEventListener('touchend', this.handleTouchEnd);
+                },
+
+                /**
+                 * Stop listening to mouseup event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentMouseUpListener',
+                value: function removeDocumentMouseUpListener() {
+                  this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * Stop listening to touchend event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentTouchEndListener',
+                value: function removeDocumentTouchEndListener() {
+                  this.node.ownerDocument.removeEventListener('touchend', this.handleTouchEnd);
+                },
+
+                /**
+                 * Handle any "mousemove" event received by the slider
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @param {string} key
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleSliderDrag',
+                value: function handleSliderDrag(event, key) {
+                  var _this2 = this;
+
+                  if (this.props.disabled) {
+                    return;
+                  }
+
+                  var position = valueTransformer.getPositionFromEvent(event, this.getTrackClientRect());
+                  this.isSliderDragging = true;
+                  requestAnimationFrame(function () {
+                    return _this2.updatePosition(key, position);
+                  });
+                },
+
+                /**
+                 * Handle any "mousemove" event received by the track
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTrackDrag',
+                value: function handleTrackDrag(event, prevEvent) {
+                  if (this.props.disabled || !this.props.draggableTrack || this.isSliderDragging) {
+                    return;
+                  }
+
+                  var _props = this.props,
+                    maxValue = _props.maxValue,
+                    minValue = _props.minValue,
+                    _props$value = _props.value,
+                    max = _props$value.max,
+                    min = _props$value.min;
+
+                  var position = valueTransformer.getPositionFromEvent(event, this.getTrackClientRect());
+                  var value = valueTransformer.getValueFromPosition(
+                    position,
+                    minValue,
+                    maxValue,
+                    this.getTrackClientRect(),
+                  );
+                  var stepValue = valueTransformer.getStepValueFromValue(value, this.props.step);
+
+                  var prevPosition = valueTransformer.getPositionFromEvent(prevEvent, this.getTrackClientRect());
+                  var prevValue = valueTransformer.getValueFromPosition(
+                    prevPosition,
+                    minValue,
+                    maxValue,
+                    this.getTrackClientRect(),
+                  );
+                  var prevStepValue = valueTransformer.getStepValueFromValue(prevValue, this.props.step);
+
+                  var offset = prevStepValue - stepValue;
+
+                  var transformedValues = {
+                    min: min - offset,
+                    max: max - offset,
+                  };
+
+                  this.updateValues(transformedValues);
+                },
+
+                /**
+                 * Handle any "keydown" event received by the slider
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @param {string} key
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleSliderKeyDown',
+                value: function handleSliderKeyDown(event, key) {
+                  if (this.props.disabled) {
+                    return;
+                  }
+
+                  switch (event.keyCode) {
+                    case _keyCodes.LEFT_ARROW:
+                    case _keyCodes.DOWN_ARROW:
+                      event.preventDefault();
+                      this.decrementValue(key);
+                      break;
+
+                    case _keyCodes.RIGHT_ARROW:
+                    case _keyCodes.UP_ARROW:
+                      event.preventDefault();
+                      this.incrementValue(key);
+                      break;
+
+                    default:
+                      break;
+                  }
+                },
+
+                /**
+                 * Handle any "mousedown" event received by the track
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @param {Point} position
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTrackMouseDown',
+                value: function handleTrackMouseDown(event, position) {
+                  if (this.props.disabled) {
+                    return;
+                  }
+
+                  var _props2 = this.props,
+                    maxValue = _props2.maxValue,
+                    minValue = _props2.minValue,
+                    _props2$value = _props2.value,
+                    max = _props2$value.max,
+                    min = _props2$value.min;
+
+                  event.preventDefault();
+
+                  var value = valueTransformer.getValueFromPosition(
+                    position,
+                    minValue,
+                    maxValue,
+                    this.getTrackClientRect(),
+                  );
+                  var stepValue = valueTransformer.getStepValueFromValue(value, this.props.step);
+
+                  if (!this.props.draggableTrack || stepValue > max || stepValue < min) {
+                    this.updatePosition(this.getKeyByPosition(position), position);
+                  }
+                },
+
+                /**
+                 * Handle the start of any mouse/touch event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleInteractionStart',
+                value: function handleInteractionStart() {
+                  if (this.props.onChangeStart) {
+                    this.props.onChangeStart(this.props.value);
+                  }
+
+                  if (this.props.onChangeComplete && !(0, _utils.isDefined)(this.startValue)) {
+                    this.startValue = this.props.value;
+                  }
+                },
+
+                /**
+                 * Handle the end of any mouse/touch event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleInteractionEnd',
+                value: function handleInteractionEnd() {
+                  if (this.isSliderDragging) {
+                    this.isSliderDragging = false;
+                  }
+
+                  if (!this.props.onChangeComplete || !(0, _utils.isDefined)(this.startValue)) {
+                    return;
+                  }
+
+                  if (this.startValue !== this.props.value) {
+                    this.props.onChangeComplete(this.props.value);
+                  }
+
+                  this.startValue = null;
+                },
+
+                /**
+                 * Handle any "keydown" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleKeyDown',
+                value: function handleKeyDown(event) {
+                  this.handleInteractionStart(event);
+                },
+
+                /**
+                 * Handle any "keyup" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleKeyUp',
+                value: function handleKeyUp(event) {
+                  this.handleInteractionEnd(event);
+                },
+
+                /**
+                 * Handle any "mousedown" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseDown',
+                value: function handleMouseDown(event) {
+                  this.handleInteractionStart(event);
+                  this.addDocumentMouseUpListener();
+                },
+
+                /**
+                 * Handle any "mouseup" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 */
+              },
+              {
+                key: 'handleMouseUp',
+                value: function handleMouseUp(event) {
+                  this.handleInteractionEnd(event);
+                  this.removeDocumentMouseUpListener();
+                },
+
+                /**
+                 * Handle any "touchstart" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTouchStart',
+                value: function handleTouchStart(event) {
+                  this.handleInteractionStart(event);
+                  this.addDocumentTouchEndListener();
+                },
+
+                /**
+                 * Handle any "touchend" event received by the component
+                 * @private
+                 * @param {SyntheticEvent} event
+                 */
+              },
+              {
+                key: 'handleTouchEnd',
+                value: function handleTouchEnd(event) {
+                  this.handleInteractionEnd(event);
+                  this.removeDocumentTouchEndListener();
+                },
+
+                /**
+                 * Return JSX of sliders
+                 * @private
+                 * @return {JSX.Element}
+                 */
+              },
+              {
+                key: 'renderSliders',
+                value: function renderSliders() {
+                  var _this3 = this;
+
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var percentages = valueTransformer.getPercentagesFromValues(
+                    values,
+                    this.props.minValue,
+                    this.props.maxValue,
+                  );
+                  var keys =
+                    this.props.allowSameValues && this.lastKeyMoved === 'min'
+                      ? this.getKeys().reverse()
+                      : this.getKeys();
+
+                  return keys.map(function (key) {
+                    var value = values[key];
+                    var percentage = percentages[key];
+
+                    var _props3 = _this3.props,
+                      maxValue = _props3.maxValue,
+                      minValue = _props3.minValue;
+
+                    if (key === 'min') {
+                      maxValue = values.max;
+                    } else {
+                      minValue = values.min;
+                    }
+
+                    var slider = _react2.default.createElement(_slider2.default, {
+                      ariaLabelledby: _this3.props.ariaLabelledby,
+                      ariaControls: _this3.props.ariaControls,
+                      classNames: _this3.props.classNames,
+                      formatLabel: _this3.props.formatLabel,
+                      key: key,
+                      maxValue: maxValue,
+                      minValue: minValue,
+                      onSliderDrag: _this3.handleSliderDrag,
+                      onSliderKeyDown: _this3.handleSliderKeyDown,
+                      percentage: percentage,
+                      type: key,
+                      value: value,
+                    });
+
+                    return slider;
+                  });
+                },
+
+                /**
+                 * Return JSX of hidden inputs
+                 * @private
+                 * @return {JSX.Element}
+                 */
+              },
+              {
+                key: 'renderHiddenInputs',
+                value: function renderHiddenInputs() {
+                  var _this4 = this;
+
+                  if (!this.props.name) {
+                    return [];
+                  }
+
+                  var isMultiValue = this.isMultiValue();
+                  var values = valueTransformer.getValueFromProps(this.props, isMultiValue);
+
+                  return this.getKeys().map(function (key) {
+                    var value = values[key];
+                    var name = isMultiValue ? '' + _this4.props.name + (0, _utils.captialize)(key) : _this4.props.name;
+
+                    return _react2.default.createElement('input', {
+                      key: key,
+                      type: 'hidden',
+                      name: name,
+                      value: value,
+                    });
+                  });
+                },
+
+                /**
+                 * @ignore
+                 * @override
+                 * @return {JSX.Element}
+                 */
+              },
+              {
+                key: 'render',
+                value: function render() {
+                  var _this5 = this;
+
+                  var componentClassName = this.getComponentClassName();
+                  var values = valueTransformer.getValueFromProps(this.props, this.isMultiValue());
+                  var percentages = valueTransformer.getPercentagesFromValues(
+                    values,
+                    this.props.minValue,
+                    this.props.maxValue,
+                  );
+
+                  return _react2.default.createElement(
+                    'div',
+                    {
+                      'aria-disabled': this.props.disabled,
+                      ref: function ref(node) {
+                        _this5.node = node;
+                      },
+                      className: componentClassName,
+                      onKeyDown: this.handleKeyDown,
+                      onKeyUp: this.handleKeyUp,
+                      onMouseDown: this.handleMouseDown,
+                      onTouchStart: this.handleTouchStart,
+                    },
+                    _react2.default.createElement(
+                      _label2.default,
+                      {
+                        classNames: this.props.classNames,
+                        formatLabel: this.props.formatLabel,
+                        type: 'min',
+                      },
+                      this.props.minValue,
+                    ),
+                    _react2.default.createElement(
+                      _track2.default,
+                      {
+                        classNames: this.props.classNames,
+                        draggableTrack: this.props.draggableTrack,
+                        ref: function ref(trackNode) {
+                          _this5.trackNode = trackNode;
+                        },
+                        percentages: percentages,
+                        onTrackDrag: this.handleTrackDrag,
+                        onTrackMouseDown: this.handleTrackMouseDown,
+                      },
+                      this.renderSliders(),
+                    ),
+                    _react2.default.createElement(
+                      _label2.default,
+                      {
+                        classNames: this.props.classNames,
+                        formatLabel: this.props.formatLabel,
+                        type: 'max',
+                      },
+                      this.props.maxValue,
+                    ),
+                    this.renderHiddenInputs(),
+                  );
+                },
+              },
+            ]);
+
+            return InputRange;
+          })(_react2.default.Component)),
+          (_applyDecoratedDescriptor(
+            _class.prototype,
+            'handleSliderDrag',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleSliderDrag'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTrackDrag',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTrackDrag'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleSliderKeyDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleSliderKeyDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTrackMouseDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTrackMouseDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleInteractionStart',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleInteractionStart'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleInteractionEnd',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleInteractionEnd'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleKeyDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleKeyUp',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyUp'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseUp',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchStart',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchEnd',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchEnd'),
+            _class.prototype,
+          )),
+          _class);
+        exports.default = InputRange;
+        module.exports = exports['default'];
+        //# sourceMappingURL=input-range.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/key-codes.js':
+      /*!************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/key-codes.js ***!
+  \************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        /** @ignore */
+        var DOWN_ARROW = (exports.DOWN_ARROW = 40);
+
+        /** @ignore */
+        var LEFT_ARROW = (exports.LEFT_ARROW = 37);
+
+        /** @ignore */
+        var RIGHT_ARROW = (exports.RIGHT_ARROW = 39);
+
+        /** @ignore */
+        var UP_ARROW = (exports.UP_ARROW = 38);
+        //# sourceMappingURL=key-codes.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/label.js':
+      /*!********************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/label.js ***!
+  \********************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = Label;
+
+        var _react = __webpack_require__(/*! react */ './node_modules/react/index.js');
+
+        var _react2 = _interopRequireDefault(_react);
+
+        var _propTypes = __webpack_require__(/*! prop-types */ './node_modules/prop-types/index.js');
+
+        var _propTypes2 = _interopRequireDefault(_propTypes);
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        /**
+         * @ignore
+         * @param {Object} props
+         * @param {InputRangeClassNames} props.classNames
+         * @param {Function} props.formatLabel
+         * @param {string} props.type
+         */
+        function Label(props) {
+          var labelValue = props.formatLabel ? props.formatLabel(props.children, props.type) : props.children;
+
+          return _react2.default.createElement(
+            'span',
+            { className: props.classNames[props.type + 'Label'] },
+            _react2.default.createElement('span', { className: props.classNames.labelContainer }, labelValue),
+          );
+        }
+
+        /**
+         * @type {Object}
+         * @property {Function} children
+         * @property {Function} classNames
+         * @property {Function} formatLabel
+         * @property {Function} type
+         */
+        Label.propTypes = {
+          children: _propTypes2.default.node.isRequired,
+          classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+          formatLabel: _propTypes2.default.func,
+          type: _propTypes2.default.string.isRequired,
+        };
+        module.exports = exports['default'];
+        //# sourceMappingURL=label.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/range-prop-type.js':
+      /*!******************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/range-prop-type.js ***!
+  \******************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = rangePropType;
+
+        var _utils = __webpack_require__(/*! ../utils */ './node_modules/react-input-range/lib/js/utils/index.js');
+
+        /**
+         * @ignore
+         * @param {Object} props - React component props
+         * @return {?Error} Return Error if validation fails
+         */
+        function rangePropType(props) {
+          var maxValue = props.maxValue,
+            minValue = props.minValue;
+
+          if (!(0, _utils.isNumber)(minValue) || !(0, _utils.isNumber)(maxValue)) {
+            return new Error('"minValue" and "maxValue" must be a number');
+          }
+
+          if (minValue >= maxValue) {
+            return new Error('"minValue" must be smaller than "maxValue"');
+          }
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=range-prop-type.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/slider.js':
+      /*!*********************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/slider.js ***!
+  \*********************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = undefined;
+
+        var _createClass = (function () {
+          function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+              var descriptor = props[i];
+              descriptor.enumerable = descriptor.enumerable || false;
+              descriptor.configurable = true;
+              if ('value' in descriptor) descriptor.writable = true;
+              Object.defineProperty(target, descriptor.key, descriptor);
+            }
+          }
+          return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+          };
+        })();
+
+        var _desc, _value, _class;
+
+        var _react = __webpack_require__(/*! react */ './node_modules/react/index.js');
+
+        var _react2 = _interopRequireDefault(_react);
+
+        var _propTypes = __webpack_require__(/*! prop-types */ './node_modules/prop-types/index.js');
+
+        var _propTypes2 = _interopRequireDefault(_propTypes);
+
+        var _autobindDecorator = __webpack_require__(
+          /*! autobind-decorator */ './node_modules/autobind-decorator/lib/index.js',
+        );
+
+        var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+        var _label = __webpack_require__(/*! ./label */ './node_modules/react-input-range/lib/js/input-range/label.js');
+
+        var _label2 = _interopRequireDefault(_label);
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+            throw new TypeError('Cannot call a class as a function');
+          }
+        }
+
+        function _possibleConstructorReturn(self, call) {
+          if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+          }
+          return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
+        }
+
+        function _inherits(subClass, superClass) {
+          if (typeof superClass !== 'function' && superClass !== null) {
+            throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+          }
+          subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
+          });
+          if (superClass)
+            Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
+        }
+
+        function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+          var desc = {};
+          Object['ke' + 'ys'](descriptor).forEach(function (key) {
+            desc[key] = descriptor[key];
+          });
+          desc.enumerable = !!desc.enumerable;
+          desc.configurable = !!desc.configurable;
+
+          if ('value' in desc || desc.initializer) {
+            desc.writable = true;
+          }
+
+          desc = decorators
+            .slice()
+            .reverse()
+            .reduce(function (desc, decorator) {
+              return decorator(target, property, desc) || desc;
+            }, desc);
+
+          if (context && desc.initializer !== void 0) {
+            desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+            desc.initializer = undefined;
+          }
+
+          if (desc.initializer === void 0) {
+            Object['define' + 'Property'](target, property, desc);
+            desc = null;
+          }
+
+          return desc;
+        }
+
+        /**
+         * @ignore
+         */
+        var Slider =
+          ((_class = (function (_React$Component) {
+            _inherits(Slider, _React$Component);
+
+            _createClass(Slider, null, [
+              {
+                key: 'propTypes',
+
+                /**
+                 * Accepted propTypes of Slider
+                 * @override
+                 * @return {Object}
+                 * @property {Function} ariaLabelledby
+                 * @property {Function} ariaControls
+                 * @property {Function} className
+                 * @property {Function} formatLabel
+                 * @property {Function} maxValue
+                 * @property {Function} minValue
+                 * @property {Function} onSliderDrag
+                 * @property {Function} onSliderKeyDown
+                 * @property {Function} percentage
+                 * @property {Function} type
+                 * @property {Function} value
+                 */
+                get: function get() {
+                  return {
+                    ariaLabelledby: _propTypes2.default.string,
+                    ariaControls: _propTypes2.default.string,
+                    classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+                    formatLabel: _propTypes2.default.func,
+                    maxValue: _propTypes2.default.number,
+                    minValue: _propTypes2.default.number,
+                    onSliderDrag: _propTypes2.default.func.isRequired,
+                    onSliderKeyDown: _propTypes2.default.func.isRequired,
+                    percentage: _propTypes2.default.number.isRequired,
+                    type: _propTypes2.default.string.isRequired,
+                    value: _propTypes2.default.number.isRequired,
+                  };
+                },
+
+                /**
+                 * @param {Object} props
+                 * @param {string} [props.ariaLabelledby]
+                 * @param {string} [props.ariaControls]
+                 * @param {InputRangeClassNames} props.classNames
+                 * @param {Function} [props.formatLabel]
+                 * @param {number} [props.maxValue]
+                 * @param {number} [props.minValue]
+                 * @param {Function} props.onSliderKeyDown
+                 * @param {Function} props.onSliderDrag
+                 * @param {number} props.percentage
+                 * @param {number} props.type
+                 * @param {number} props.value
+                 */
+              },
+            ]);
+
+            function Slider(props) {
+              _classCallCheck(this, Slider);
+
+              /**
+               * @private
+               * @type {?Component}
+               */
+              var _this = _possibleConstructorReturn(
+                this,
+                (Slider.__proto__ || Object.getPrototypeOf(Slider)).call(this, props),
+              );
+
+              _this.node = null;
+              return _this;
+            }
+
+            /**
+             * @ignore
+             * @override
+             * @return {void}
+             */
+
+            _createClass(Slider, [
+              {
+                key: 'componentWillUnmount',
+                value: function componentWillUnmount() {
+                  this.removeDocumentMouseMoveListener();
+                  this.removeDocumentMouseUpListener();
+                  this.removeDocumentTouchEndListener();
+                  this.removeDocumentTouchMoveListener();
+                },
+
+                /**
+                 * @private
+                 * @return {Object}
+                 */
+              },
+              {
+                key: 'getStyle',
+                value: function getStyle() {
+                  var perc = (this.props.percentage || 0) * 100;
+                  var style = {
+                    position: 'absolute',
+                    left: perc + '%',
+                  };
+
+                  return style;
+                },
+
+                /**
+                 * Listen to mousemove event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentMouseMoveListener',
+                value: function addDocumentMouseMoveListener() {
+                  this.removeDocumentMouseMoveListener();
+                  this.node.ownerDocument.addEventListener('mousemove', this.handleMouseMove);
+                },
+
+                /**
+                 * Listen to mouseup event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentMouseUpListener',
+                value: function addDocumentMouseUpListener() {
+                  this.removeDocumentMouseUpListener();
+                  this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * Listen to touchmove event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentTouchMoveListener',
+                value: function addDocumentTouchMoveListener() {
+                  this.removeDocumentTouchMoveListener();
+                  this.node.ownerDocument.addEventListener('touchmove', this.handleTouchMove);
+                },
+
+                /**
+                 * Listen to touchend event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentTouchEndListener',
+                value: function addDocumentTouchEndListener() {
+                  this.removeDocumentTouchEndListener();
+                  this.node.ownerDocument.addEventListener('touchend', this.handleTouchEnd);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentMouseMoveListener',
+                value: function removeDocumentMouseMoveListener() {
+                  this.node.ownerDocument.removeEventListener('mousemove', this.handleMouseMove);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentMouseUpListener',
+                value: function removeDocumentMouseUpListener() {
+                  this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentTouchMoveListener',
+                value: function removeDocumentTouchMoveListener() {
+                  this.node.ownerDocument.removeEventListener('touchmove', this.handleTouchMove);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentTouchEndListener',
+                value: function removeDocumentTouchEndListener() {
+                  this.node.ownerDocument.removeEventListener('touchend', this.handleTouchEnd);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseDown',
+                value: function handleMouseDown() {
+                  this.addDocumentMouseMoveListener();
+                  this.addDocumentMouseUpListener();
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseUp',
+                value: function handleMouseUp() {
+                  this.removeDocumentMouseMoveListener();
+                  this.removeDocumentMouseUpListener();
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseMove',
+                value: function handleMouseMove(event) {
+                  this.props.onSliderDrag(event, this.props.type);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTouchStart',
+                value: function handleTouchStart() {
+                  this.addDocumentTouchEndListener();
+                  this.addDocumentTouchMoveListener();
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTouchMove',
+                value: function handleTouchMove(event) {
+                  this.props.onSliderDrag(event, this.props.type);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleTouchEnd',
+                value: function handleTouchEnd() {
+                  this.removeDocumentTouchMoveListener();
+                  this.removeDocumentTouchEndListener();
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleKeyDown',
+                value: function handleKeyDown(event) {
+                  this.props.onSliderKeyDown(event, this.props.type);
+                },
+
+                /**
+                 * @override
+                 * @return {JSX.Element}
+                 */
+              },
+              {
+                key: 'render',
+                value: function render() {
+                  var _this2 = this;
+
+                  var style = this.getStyle();
+
+                  return _react2.default.createElement(
+                    'span',
+                    {
+                      className: this.props.classNames.sliderContainer,
+                      ref: function ref(node) {
+                        _this2.node = node;
+                      },
+                      style: style,
+                    },
+                    _react2.default.createElement(
+                      _label2.default,
+                      {
+                        classNames: this.props.classNames,
+                        formatLabel: this.props.formatLabel,
+                        type: 'value',
+                      },
+                      this.props.value,
+                    ),
+                    _react2.default.createElement('div', {
+                      'aria-labelledby': this.props.ariaLabelledby,
+                      'aria-controls': this.props.ariaControls,
+                      'aria-valuemax': this.props.maxValue,
+                      'aria-valuemin': this.props.minValue,
+                      'aria-valuenow': this.props.value,
+                      className: this.props.classNames.slider,
+                      draggable: 'false',
+                      onKeyDown: this.handleKeyDown,
+                      onMouseDown: this.handleMouseDown,
+                      onTouchStart: this.handleTouchStart,
+                      role: 'slider',
+                      tabIndex: '0',
+                    }),
+                  );
+                },
+              },
+            ]);
+
+            return Slider;
+          })(_react2.default.Component)),
+          (_applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseUp',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseMove',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseMove'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchStart',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchMove',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchMove'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchEnd',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchEnd'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleKeyDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleKeyDown'),
+            _class.prototype,
+          )),
+          _class);
+        exports.default = Slider;
+        module.exports = exports['default'];
+        //# sourceMappingURL=slider.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/track.js':
+      /*!********************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/track.js ***!
+  \********************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = undefined;
+
+        var _createClass = (function () {
+          function defineProperties(target, props) {
+            for (var i = 0; i < props.length; i++) {
+              var descriptor = props[i];
+              descriptor.enumerable = descriptor.enumerable || false;
+              descriptor.configurable = true;
+              if ('value' in descriptor) descriptor.writable = true;
+              Object.defineProperty(target, descriptor.key, descriptor);
+            }
+          }
+          return function (Constructor, protoProps, staticProps) {
+            if (protoProps) defineProperties(Constructor.prototype, protoProps);
+            if (staticProps) defineProperties(Constructor, staticProps);
+            return Constructor;
+          };
+        })();
+
+        var _desc, _value, _class;
+
+        var _react = __webpack_require__(/*! react */ './node_modules/react/index.js');
+
+        var _react2 = _interopRequireDefault(_react);
+
+        var _propTypes = __webpack_require__(/*! prop-types */ './node_modules/prop-types/index.js');
+
+        var _propTypes2 = _interopRequireDefault(_propTypes);
+
+        var _autobindDecorator = __webpack_require__(
+          /*! autobind-decorator */ './node_modules/autobind-decorator/lib/index.js',
+        );
+
+        var _autobindDecorator2 = _interopRequireDefault(_autobindDecorator);
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+
+        function _classCallCheck(instance, Constructor) {
+          if (!(instance instanceof Constructor)) {
+            throw new TypeError('Cannot call a class as a function');
+          }
+        }
+
+        function _possibleConstructorReturn(self, call) {
+          if (!self) {
+            throw new ReferenceError("this hasn't been initialised - super() hasn't been called");
+          }
+          return call && (typeof call === 'object' || typeof call === 'function') ? call : self;
+        }
+
+        function _inherits(subClass, superClass) {
+          if (typeof superClass !== 'function' && superClass !== null) {
+            throw new TypeError('Super expression must either be null or a function, not ' + typeof superClass);
+          }
+          subClass.prototype = Object.create(superClass && superClass.prototype, {
+            constructor: { value: subClass, enumerable: false, writable: true, configurable: true },
+          });
+          if (superClass)
+            Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : (subClass.__proto__ = superClass);
+        }
+
+        function _applyDecoratedDescriptor(target, property, decorators, descriptor, context) {
+          var desc = {};
+          Object['ke' + 'ys'](descriptor).forEach(function (key) {
+            desc[key] = descriptor[key];
+          });
+          desc.enumerable = !!desc.enumerable;
+          desc.configurable = !!desc.configurable;
+
+          if ('value' in desc || desc.initializer) {
+            desc.writable = true;
+          }
+
+          desc = decorators
+            .slice()
+            .reverse()
+            .reduce(function (desc, decorator) {
+              return decorator(target, property, desc) || desc;
+            }, desc);
+
+          if (context && desc.initializer !== void 0) {
+            desc.value = desc.initializer ? desc.initializer.call(context) : void 0;
+            desc.initializer = undefined;
+          }
+
+          if (desc.initializer === void 0) {
+            Object['define' + 'Property'](target, property, desc);
+            desc = null;
+          }
+
+          return desc;
+        }
+
+        /**
+         * @ignore
+         */
+        var Track =
+          ((_class = (function (_React$Component) {
+            _inherits(Track, _React$Component);
+
+            _createClass(Track, null, [
+              {
+                key: 'propTypes',
+
+                /**
+                 * @override
+                 * @return {Object}
+                 * @property {Function} children
+                 * @property {Function} classNames
+                 * @property {Boolean} draggableTrack
+                 * @property {Function} onTrackDrag
+                 * @property {Function} onTrackMouseDown
+                 * @property {Function} percentages
+                 */
+                get: function get() {
+                  return {
+                    children: _propTypes2.default.node.isRequired,
+                    classNames: _propTypes2.default.objectOf(_propTypes2.default.string).isRequired,
+                    draggableTrack: _propTypes2.default.bool,
+                    onTrackDrag: _propTypes2.default.func,
+                    onTrackMouseDown: _propTypes2.default.func.isRequired,
+                    percentages: _propTypes2.default.objectOf(_propTypes2.default.number).isRequired,
+                  };
+                },
+
+                /**
+                 * @param {Object} props
+                 * @param {InputRangeClassNames} props.classNames
+                 * @param {Boolean} props.draggableTrack
+                 * @param {Function} props.onTrackDrag
+                 * @param {Function} props.onTrackMouseDown
+                 * @param {number} props.percentages
+                 */
+              },
+            ]);
+
+            function Track(props) {
+              _classCallCheck(this, Track);
+
+              /**
+               * @private
+               * @type {?Component}
+               */
+              var _this = _possibleConstructorReturn(
+                this,
+                (Track.__proto__ || Object.getPrototypeOf(Track)).call(this, props),
+              );
+
+              _this.node = null;
+              _this.trackDragEvent = null;
+              return _this;
+            }
+
+            /**
+             * @private
+             * @return {ClientRect}
+             */
+
+            _createClass(Track, [
+              {
+                key: 'getClientRect',
+                value: function getClientRect() {
+                  return this.node.getBoundingClientRect();
+                },
+
+                /**
+                 * @private
+                 * @return {Object} CSS styles
+                 */
+              },
+              {
+                key: 'getActiveTrackStyle',
+                value: function getActiveTrackStyle() {
+                  var width = (this.props.percentages.max - this.props.percentages.min) * 100 + '%';
+                  var left = this.props.percentages.min * 100 + '%';
+
+                  return { left: left, width: width };
+                },
+
+                /**
+                 * Listen to mousemove event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentMouseMoveListener',
+                value: function addDocumentMouseMoveListener() {
+                  this.removeDocumentMouseMoveListener();
+                  this.node.ownerDocument.addEventListener('mousemove', this.handleMouseMove);
+                },
+
+                /**
+                 * Listen to mouseup event
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'addDocumentMouseUpListener',
+                value: function addDocumentMouseUpListener() {
+                  this.removeDocumentMouseUpListener();
+                  this.node.ownerDocument.addEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentMouseMoveListener',
+                value: function removeDocumentMouseMoveListener() {
+                  this.node.ownerDocument.removeEventListener('mousemove', this.handleMouseMove);
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'removeDocumentMouseUpListener',
+                value: function removeDocumentMouseUpListener() {
+                  this.node.ownerDocument.removeEventListener('mouseup', this.handleMouseUp);
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseMove',
+                value: function handleMouseMove(event) {
+                  if (!this.props.draggableTrack) {
+                    return;
+                  }
+
+                  if (this.trackDragEvent !== null) {
+                    this.props.onTrackDrag(event, this.trackDragEvent);
+                  }
+
+                  this.trackDragEvent = event;
+                },
+
+                /**
+                 * @private
+                 * @return {void}
+                 */
+              },
+              {
+                key: 'handleMouseUp',
+                value: function handleMouseUp() {
+                  if (!this.props.draggableTrack) {
+                    return;
+                  }
+
+                  this.removeDocumentMouseMoveListener();
+                  this.removeDocumentMouseUpListener();
+                  this.trackDragEvent = null;
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event - User event
+                 */
+              },
+              {
+                key: 'handleMouseDown',
+                value: function handleMouseDown(event) {
+                  var clientX = event.touches ? event.touches[0].clientX : event.clientX;
+                  var trackClientRect = this.getClientRect();
+                  var position = {
+                    x: clientX - trackClientRect.left,
+                    y: 0,
+                  };
+
+                  this.props.onTrackMouseDown(event, position);
+
+                  if (this.props.draggableTrack) {
+                    this.addDocumentMouseMoveListener();
+                    this.addDocumentMouseUpListener();
+                  }
+                },
+
+                /**
+                 * @private
+                 * @param {SyntheticEvent} event - User event
+                 */
+              },
+              {
+                key: 'handleTouchStart',
+                value: function handleTouchStart(event) {
+                  event.preventDefault();
+
+                  this.handleMouseDown(event);
+                },
+
+                /**
+                 * @override
+                 * @return {JSX.Element}
+                 */
+              },
+              {
+                key: 'render',
+                value: function render() {
+                  var _this2 = this;
+
+                  var activeTrackStyle = this.getActiveTrackStyle();
+
+                  return _react2.default.createElement(
+                    'div',
+                    {
+                      className: this.props.classNames.track,
+                      onMouseDown: this.handleMouseDown,
+                      onTouchStart: this.handleTouchStart,
+                      ref: function ref(node) {
+                        _this2.node = node;
+                      },
+                    },
+                    _react2.default.createElement('div', {
+                      style: activeTrackStyle,
+                      className: this.props.classNames.activeTrack,
+                    }),
+                    this.props.children,
+                  );
+                },
+              },
+            ]);
+
+            return Track;
+          })(_react2.default.Component)),
+          (_applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseMove',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseMove'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseUp',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseUp'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleMouseDown',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleMouseDown'),
+            _class.prototype,
+          ),
+          _applyDecoratedDescriptor(
+            _class.prototype,
+            'handleTouchStart',
+            [_autobindDecorator2.default],
+            Object.getOwnPropertyDescriptor(_class.prototype, 'handleTouchStart'),
+            _class.prototype,
+          )),
+          _class);
+        exports.default = Track;
+        module.exports = exports['default'];
+        //# sourceMappingURL=track.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/value-prop-type.js':
+      /*!******************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/value-prop-type.js ***!
+  \******************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = valuePropType;
+
+        var _utils = __webpack_require__(/*! ../utils */ './node_modules/react-input-range/lib/js/utils/index.js');
+
+        /**
+         * @ignore
+         * @param {Object} props
+         * @return {?Error} Return Error if validation fails
+         */
+        function valuePropType(props, propName) {
+          var maxValue = props.maxValue,
+            minValue = props.minValue;
+
+          var value = props[propName];
+
+          if (
+            !(0, _utils.isNumber)(value) &&
+            (!(0, _utils.isObject)(value) || !(0, _utils.isNumber)(value.min) || !(0, _utils.isNumber)(value.max))
+          ) {
+            return new Error('"' + propName + '" must be a number or a range object');
+          }
+
+          if ((0, _utils.isNumber)(value) && (value < minValue || value > maxValue)) {
+            return new Error('"' + propName + '" must be in between "minValue" and "maxValue"');
+          }
+
+          if (
+            (0, _utils.isObject)(value) &&
+            (value.min < minValue || value.min > maxValue || value.max < minValue || value.max > maxValue)
+          ) {
+            return new Error('"' + propName + '" must be in between "minValue" and "maxValue"');
+          }
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=value-prop-type.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/input-range/value-transformer.js':
+      /*!********************************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/input-range/value-transformer.js ***!
+  \********************************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+
+        var _extends =
+          Object.assign ||
+          function (target) {
+            for (var i = 1; i < arguments.length; i++) {
+              var source = arguments[i];
+              for (var key in source) {
+                if (Object.prototype.hasOwnProperty.call(source, key)) {
+                  target[key] = source[key];
+                }
+              }
+            }
+            return target;
+          };
+
+        exports.getPercentageFromPosition = getPercentageFromPosition;
+        exports.getValueFromPosition = getValueFromPosition;
+        exports.getValueFromProps = getValueFromProps;
+        exports.getPercentageFromValue = getPercentageFromValue;
+        exports.getPercentagesFromValues = getPercentagesFromValues;
+        exports.getPositionFromValue = getPositionFromValue;
+        exports.getPositionsFromValues = getPositionsFromValues;
+        exports.getPositionFromEvent = getPositionFromEvent;
+        exports.getStepValueFromValue = getStepValueFromValue;
+
+        var _utils = __webpack_require__(/*! ../utils */ './node_modules/react-input-range/lib/js/utils/index.js');
+
+        /**
+         * Convert a point into a percentage value
+         * @ignore
+         * @param {Point} position
+         * @param {ClientRect} clientRect
+         * @return {number} Percentage value
+         */
+        function getPercentageFromPosition(position, clientRect) {
+          var length = clientRect.width;
+          var sizePerc = position.x / length;
+
+          return sizePerc || 0;
+        }
+
+        /**
+         * Convert a point into a model value
+         * @ignore
+         * @param {Point} position
+         * @param {number} minValue
+         * @param {number} maxValue
+         * @param {ClientRect} clientRect
+         * @return {number}
+         */
+        function getValueFromPosition(position, minValue, maxValue, clientRect) {
+          var sizePerc = getPercentageFromPosition(position, clientRect);
+          var valueDiff = maxValue - minValue;
+
+          return minValue + valueDiff * sizePerc;
+        }
+
+        /**
+         * Convert props into a range value
+         * @ignore
+         * @param {Object} props
+         * @param {boolean} isMultiValue
+         * @return {Range}
+         */
+        function getValueFromProps(props, isMultiValue) {
+          if (isMultiValue) {
+            return _extends({}, props.value);
+          }
+
+          return {
+            min: props.minValue,
+            max: props.value,
+          };
+        }
+
+        /**
+         * Convert a model value into a percentage value
+         * @ignore
+         * @param {number} value
+         * @param {number} minValue
+         * @param {number} maxValue
+         * @return {number}
+         */
+        function getPercentageFromValue(value, minValue, maxValue) {
+          var validValue = (0, _utils.clamp)(value, minValue, maxValue);
+          var valueDiff = maxValue - minValue;
+          var valuePerc = (validValue - minValue) / valueDiff;
+
+          return valuePerc || 0;
+        }
+
+        /**
+         * Convert model values into percentage values
+         * @ignore
+         * @param {Range} values
+         * @param {number} minValue
+         * @param {number} maxValue
+         * @return {Range}
+         */
+        function getPercentagesFromValues(values, minValue, maxValue) {
+          return {
+            min: getPercentageFromValue(values.min, minValue, maxValue),
+            max: getPercentageFromValue(values.max, minValue, maxValue),
+          };
+        }
+
+        /**
+         * Convert a value into a point
+         * @ignore
+         * @param {number} value
+         * @param {number} minValue
+         * @param {number} maxValue
+         * @param {ClientRect} clientRect
+         * @return {Point} Position
+         */
+        function getPositionFromValue(value, minValue, maxValue, clientRect) {
+          var length = clientRect.width;
+          var valuePerc = getPercentageFromValue(value, minValue, maxValue);
+          var positionValue = valuePerc * length;
+
+          return {
+            x: positionValue,
+            y: 0,
+          };
+        }
+
+        /**
+         * Convert a range of values into points
+         * @ignore
+         * @param {Range} values
+         * @param {number} minValue
+         * @param {number} maxValue
+         * @param {ClientRect} clientRect
+         * @return {Range}
+         */
+        function getPositionsFromValues(values, minValue, maxValue, clientRect) {
+          return {
+            min: getPositionFromValue(values.min, minValue, maxValue, clientRect),
+            max: getPositionFromValue(values.max, minValue, maxValue, clientRect),
+          };
+        }
+
+        /**
+         * Convert an event into a point
+         * @ignore
+         * @param {Event} event
+         * @param {ClientRect} clientRect
+         * @return {Point}
+         */
+        function getPositionFromEvent(event, clientRect) {
+          var length = clientRect.width;
+
+          var _ref = event.touches ? event.touches[0] : event,
+            clientX = _ref.clientX;
+
+          return {
+            x: (0, _utils.clamp)(clientX - clientRect.left, 0, length),
+            y: 0,
+          };
+        }
+
+        /**
+         * Convert a value into a step value
+         * @ignore
+         * @param {number} value
+         * @param {number} valuePerStep
+         * @return {number}
+         */
+        function getStepValueFromValue(value, valuePerStep) {
+          return Math.round(value / valuePerStep) * valuePerStep;
+        }
+        //# sourceMappingURL=value-transformer.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/captialize.js':
+      /*!*******************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/captialize.js ***!
+  \*******************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = captialize;
+        /**
+         * Captialize a string
+         * @ignore
+         * @param {string} string
+         * @return {string}
+         */
+        function captialize(string) {
+          return string.charAt(0).toUpperCase() + string.slice(1);
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=captialize.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/clamp.js':
+      /*!**************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/clamp.js ***!
+  \**************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = clamp;
+        /**
+         * Clamp a value between a min and max value
+         * @ignore
+         * @param {number} value
+         * @param {number} min
+         * @param {number} max
+         * @return {number}
+         */
+        function clamp(value, min, max) {
+          return Math.min(Math.max(value, min), max);
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=clamp.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/distance-to.js':
+      /*!********************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/distance-to.js ***!
+  \********************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = distanceTo;
+        /**
+         * Calculate the distance between pointA and pointB
+         * @ignore
+         * @param {Point} pointA
+         * @param {Point} pointB
+         * @return {number} Distance
+         */
+        function distanceTo(pointA, pointB) {
+          var xDiff = Math.pow(pointB.x - pointA.x, 2);
+          var yDiff = Math.pow(pointB.y - pointA.y, 2);
+
+          return Math.sqrt(xDiff + yDiff);
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=distance-to.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/index.js':
+      /*!**************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/index.js ***!
+  \**************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+
+        var _captialize = __webpack_require__(
+          /*! ./captialize */ './node_modules/react-input-range/lib/js/utils/captialize.js',
+        );
+
+        Object.defineProperty(exports, 'captialize', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_captialize).default;
+          },
+        });
+
+        var _clamp = __webpack_require__(/*! ./clamp */ './node_modules/react-input-range/lib/js/utils/clamp.js');
+
+        Object.defineProperty(exports, 'clamp', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_clamp).default;
+          },
+        });
+
+        var _distanceTo = __webpack_require__(
+          /*! ./distance-to */ './node_modules/react-input-range/lib/js/utils/distance-to.js',
+        );
+
+        Object.defineProperty(exports, 'distanceTo', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_distanceTo).default;
+          },
+        });
+
+        var _isDefined = __webpack_require__(
+          /*! ./is-defined */ './node_modules/react-input-range/lib/js/utils/is-defined.js',
+        );
+
+        Object.defineProperty(exports, 'isDefined', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_isDefined).default;
+          },
+        });
+
+        var _isNumber = __webpack_require__(
+          /*! ./is-number */ './node_modules/react-input-range/lib/js/utils/is-number.js',
+        );
+
+        Object.defineProperty(exports, 'isNumber', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_isNumber).default;
+          },
+        });
+
+        var _isObject = __webpack_require__(
+          /*! ./is-object */ './node_modules/react-input-range/lib/js/utils/is-object.js',
+        );
+
+        Object.defineProperty(exports, 'isObject', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_isObject).default;
+          },
+        });
+
+        var _length = __webpack_require__(/*! ./length */ './node_modules/react-input-range/lib/js/utils/length.js');
+
+        Object.defineProperty(exports, 'length', {
+          enumerable: true,
+          get: function get() {
+            return _interopRequireDefault(_length).default;
+          },
+        });
+
+        function _interopRequireDefault(obj) {
+          return obj && obj.__esModule ? obj : { default: obj };
+        }
+        //# sourceMappingURL=index.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/is-defined.js':
+      /*!*******************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/is-defined.js ***!
+  \*******************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = isDefined;
+        /**
+         * Check if a value is defined
+         * @ignore
+         * @param {*} value
+         * @return {boolean}
+         */
+        function isDefined(value) {
+          return value !== undefined && value !== null;
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=is-defined.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/is-number.js':
+      /*!******************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/is-number.js ***!
+  \******************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = isNumber;
+        /**
+         * Check if a value is a number
+         * @ignore
+         * @param {*} value
+         * @return {boolean}
+         */
+        function isNumber(value) {
+          return typeof value === 'number';
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=is-number.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/is-object.js':
+      /*!******************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/is-object.js ***!
+  \******************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+
+        var _typeof =
+          typeof Symbol === 'function' && typeof Symbol.iterator === 'symbol'
+            ? function (obj) {
+                return typeof obj;
+              }
+            : function (obj) {
+                return obj && typeof Symbol === 'function' && obj.constructor === Symbol && obj !== Symbol.prototype
+                  ? 'symbol'
+                  : typeof obj;
+              };
+
+        exports.default = isObject;
+        /**
+         * Check if a value is an object
+         * @ignore
+         * @param {*} value
+         * @return {boolean}
+         */
+        function isObject(value) {
+          return value !== null && (typeof value === 'undefined' ? 'undefined' : _typeof(value)) === 'object';
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=is-object.js.map
+
+        /***/
+      },
+
+    /***/ './node_modules/react-input-range/lib/js/utils/length.js':
+      /*!***************************************************************!*\
+  !*** ./node_modules/react-input-range/lib/js/utils/length.js ***!
+  \***************************************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        Object.defineProperty(exports, '__esModule', {
+          value: true,
+        });
+        exports.default = length;
+        /**
+         * Calculate the absolute difference between two numbers
+         * @ignore
+         * @param {number} numA
+         * @param {number} numB
+         * @return {number}
+         */
+        function length(numA, numB) {
+          return Math.abs(numA - numB);
+        }
+        module.exports = exports['default'];
+        //# sourceMappingURL=length.js.map
+
+        /***/
+      },
+
     /***/ './node_modules/react-is/cjs/react-is.development.js':
       /*!***********************************************************!*\
   !*** ./node_modules/react-is/cjs/react-is.development.js ***!
@@ -41437,7 +44476,7 @@ object-assign
             ((_b = {}), (_b[DropdownMenu_module_scss_1.default.active] = isActive), _b),
           );
           return react_1.default.createElement(
-            'div',
+            react_1.default.Fragment,
             null,
             react_1.default.createElement(
               'div',
@@ -41453,23 +44492,27 @@ object-assign
                 react_1.default.createElement(
                   'ul',
                   null,
-                  types.map(function (type) {
-                    var _a;
-                    return react_1.default.createElement(
-                      'li',
-                      {
-                        className: classnames_1.default(
-                          DropdownMenu_module_scss_1.default.item,
-                          ((_a = {}), (_a[DropdownMenu_module_scss_1.default.itemActive] = activeTypes.has(type)), _a),
-                        ),
-                        onClick: function () {
-                          return onToggle(type, isActive);
-                        },
-                        key: type,
-                      },
-                      type,
-                    );
-                  }),
+                  types === null || types === void 0
+                    ? void 0
+                    : types.map(function (type) {
+                        var _a;
+                        return react_1.default.createElement(
+                          'li',
+                          {
+                            className: classnames_1.default(
+                              DropdownMenu_module_scss_1.default.item,
+                              ((_a = {}),
+                              (_a[DropdownMenu_module_scss_1.default.itemActive] = activeTypes.has(type)),
+                              _a),
+                            ),
+                            onClick: function () {
+                              return onToggle(type, isActive);
+                            },
+                            key: type,
+                          },
+                          type,
+                        );
+                      }),
                 ),
               ),
             ),
@@ -42847,6 +45890,99 @@ object-assign
         /***/
       },
 
+    /***/ './src/components/Slider/Slider.module.scss':
+      /*!**************************************************!*\
+  !*** ./src/components/Slider/Slider.module.scss ***!
+  \**************************************************/
+      /*! exports provided: default */
+      /***/ function (module, __webpack_exports__, __webpack_require__) {
+        'use strict';
+        __webpack_require__.r(__webpack_exports__);
+        /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(
+          /*! ../../../node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js */ './node_modules/style-loader/dist/runtime/injectStylesIntoStyleTag.js',
+        );
+        /* harmony import */ var _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/ __webpack_require__.n(
+          _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0__,
+        );
+        /* harmony import */ var _node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_sass_loader_dist_cjs_js_Slider_module_scss__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(
+          /*! !../../../node_modules/css-loader/dist/cjs.js??ref--6-1!../../../node_modules/sass-loader/dist/cjs.js!./Slider.module.scss */ './node_modules/css-loader/dist/cjs.js?!./node_modules/sass-loader/dist/cjs.js!./src/components/Slider/Slider.module.scss',
+        );
+
+        var options = {};
+
+        options.insert = 'head';
+        options.singleton = false;
+
+        var update = _node_modules_style_loader_dist_runtime_injectStylesIntoStyleTag_js__WEBPACK_IMPORTED_MODULE_0___default()(
+          _node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_sass_loader_dist_cjs_js_Slider_module_scss__WEBPACK_IMPORTED_MODULE_1__[
+            'default'
+          ],
+          options,
+        );
+
+        /* harmony default export */ __webpack_exports__['default'] =
+          _node_modules_css_loader_dist_cjs_js_ref_6_1_node_modules_sass_loader_dist_cjs_js_Slider_module_scss__WEBPACK_IMPORTED_MODULE_1__[
+            'default'
+          ].locals || {};
+
+        /***/
+      },
+
+    /***/ './src/components/Slider/index.tsx':
+      /*!*****************************************!*\
+  !*** ./src/components/Slider/index.tsx ***!
+  \*****************************************/
+      /*! no static exports found */
+      /***/ function (module, exports, __webpack_require__) {
+        'use strict';
+
+        var __importDefault =
+          (this && this.__importDefault) ||
+          function (mod) {
+            return mod && mod.__esModule ? mod : { default: mod };
+          };
+        Object.defineProperty(exports, '__esModule', { value: true });
+        var react_1 = __importDefault(__webpack_require__(/*! react */ './node_modules/react/index.js'));
+        var react_input_range_1 = __importDefault(
+          __webpack_require__(/*! react-input-range */ './node_modules/react-input-range/lib/js/index.js'),
+        );
+        __webpack_require__(
+          /*! react-input-range/lib/css/index.css */ './node_modules/react-input-range/lib/css/index.css',
+        );
+        var Slider_module_scss_1 = __importDefault(
+          __webpack_require__(/*! ./Slider.module.scss */ './src/components/Slider/Slider.module.scss'),
+        );
+        var Slider = function (props) {
+          var _a = props.data,
+            min = _a.min,
+            max = _a.max,
+            step = _a.step,
+            value = _a.value,
+            label = _a.label;
+          var onChange = function (range) {
+            props.onChange({
+              type: label,
+              value: range,
+            });
+          };
+          return react_1.default.createElement(
+            'div',
+            { className: Slider_module_scss_1.default.slider },
+            react_1.default.createElement('label', null, label),
+            react_1.default.createElement(react_input_range_1.default, {
+              minValue: min,
+              maxValue: max,
+              step: step,
+              onChange: onChange,
+              value: value,
+            }),
+          );
+        };
+        exports.default = Slider;
+
+        /***/
+      },
+
     /***/ './src/config/index.ts':
       /*!*****************************!*\
   !*** ./src/config/index.ts ***!
@@ -42855,39 +45991,63 @@ object-assign
       /***/ function (module, exports, __webpack_require__) {
         'use strict';
 
+        var _a;
         Object.defineProperty(exports, '__esModule', { value: true });
+        exports.EEndpoint = void 0;
         var EEndpoint;
         (function (EEndpoint) {
           EEndpoint['getPokemons'] = 'getPokemons';
           EEndpoint['getPokemon'] = 'getPokemon';
+          EEndpoint['getPokemonsType'] = 'getPokemonsType';
           EEndpoint['getPokemonsByType'] = 'getPokemonsByType';
-        })(EEndpoint || (EEndpoint = {}));
+          EEndpoint['getPokemonsByMinAttack'] = 'getPokemonsByMinAttack';
+          EEndpoint['getPokemonsByMaxAttack'] = 'getPokemonsByMaxAttack';
+        })((EEndpoint = exports.EEndpoint || (exports.EEndpoint = {})));
         var config = {
           client: {
             server: {
               protocol: 'http',
               host: 'zar.hosthot.ru',
             },
-            endpoint: {
-              getPokemons: {
+            endpoint:
+              ((_a = {}),
+              (_a[EEndpoint.getPokemons] = {
                 method: 'GET',
                 uri: {
                   pathname: '/api/v1/pokemons',
                 },
-              },
-              getPokemon: {
+              }),
+              (_a[EEndpoint.getPokemon] = {
                 method: 'GET',
                 uri: {
                   pathname: '/api/v1/pokemon/{id}',
                 },
-              },
-              getPokemonsByType: {
+              }),
+              (_a[EEndpoint.getPokemonsType] = {
+                method: 'GET',
+                uri: {
+                  pathname: '/api/v1/types',
+                },
+              }),
+              (_a[EEndpoint.getPokemonsByType] = {
                 method: 'GET',
                 uri: {
                   pathname: '/api/v1/pokemons?types={type}',
                 },
-              },
-            },
+              }),
+              (_a[EEndpoint.getPokemonsByMinAttack] = {
+                method: 'GET',
+                uri: {
+                  pathname: '/api/v1/pokemons?attack_from={min}',
+                },
+              }),
+              (_a[EEndpoint.getPokemonsByMaxAttack] = {
+                method: 'GET',
+                uri: {
+                  pathname: '/api/v1/pokemons?attack_to={max}',
+                },
+              }),
+              _a),
           },
         };
         exports.default = config;
@@ -43110,6 +46270,8 @@ object-assign
                       _a.label = 1;
                     case 1:
                       _a.trys.push([1, 3, 4, 5]);
+                      console.log('endpoint', endpoint);
+                      console.log('query', query);
                       return [4 /*yield*/, request_1.default(endpoint, query)];
                     case 2:
                       result = _a.sent();
@@ -43847,6 +47009,7 @@ object-assign
           };
         Object.defineProperty(exports, '__esModule', { value: true });
         var react_1 = __importStar(__webpack_require__(/*! react */ './node_modules/react/index.js'));
+        var react_redux_1 = __webpack_require__(/*! react-redux */ './node_modules/react-redux/es/index.js');
         var PokemonCard_1 = __importDefault(
           __webpack_require__(/*! ../../components/PokemonCard */ './src/components/PokemonCard/index.tsx'),
         );
@@ -43867,7 +47030,15 @@ object-assign
         var useDebounce_1 = __importDefault(
           __webpack_require__(/*! ../../hook/useDebounce */ './src/hook/useDebounce.ts'),
         );
+        var pokemon_1 = __webpack_require__(/*! ../../store/pokemon */ './src/store/pokemon.ts');
+        var index_1 = __webpack_require__(/*! ../../config/index */ './src/config/index.ts');
+        var Slider_1 = __importDefault(
+          __webpack_require__(/*! ../../components/Slider */ './src/components/Slider/index.tsx'),
+        );
         var Pokedex = function () {
+          var dispatch = react_redux_1.useDispatch();
+          var typeFilter = react_redux_1.useSelector(pokemon_1.getPokemonsTypes);
+          var typesIsLoading = react_redux_1.useSelector(pokemon_1.getPokemonsTypesIsLoading);
           var _a = react_1.useState(''),
             inputValue = _a[0],
             setInputValue = _a[1];
@@ -43880,15 +47051,30 @@ object-assign
           var _d = react_1.useState({ limit: 100 }),
             query = _d[0],
             setQuery = _d[1];
-          var debounceValue = useDebounce_1.default(inputValue || typeValue, 500);
-          var _e = useData_1.default('getPokemons', query, [debounceValue]),
-            data = _e.data,
-            isLoading = _e.isLoading,
-            isError = _e.isError;
-          var typeFilter = ['grass', 'poison', 'fire', 'flying', 'water', 'bug'];
-          var _f = react_1.useState(new Map()),
-            typesArray = _f[0],
-            setTypesArray = _f[1];
+          var _e = react_1.useState(0),
+            attackMinValue = _e[0],
+            setAttackMinValue = _e[1];
+          var _f = react_1.useState(200),
+            attackMaxValue = _f[0],
+            setAttackMaxValue = _f[1];
+          var debounceValue = useDebounce_1.default(inputValue || typeValue || attackMinValue || attackMaxValue, 500);
+          var _g = useData_1.default(index_1.EEndpoint.getPokemons, query, [debounceValue]),
+            data = _g.data,
+            isLoading = _g.isLoading,
+            isError = _g.isError;
+          var _h = react_1.useState(new Map()),
+            typesArray = _h[0],
+            setTypesArray = _h[1];
+          var sliderAttackData = {
+            min: 0,
+            max: 200,
+            step: 1,
+            value: { min: attackMinValue, max: attackMaxValue },
+            label: 'Атака',
+          };
+          react_1.useEffect(function () {
+            dispatch(pokemon_1.getTypesAction());
+          }, []);
           var onChange = function (ev) {
             setInputValue(ev.target.value);
             setQuery(function (state) {
@@ -43916,6 +47102,18 @@ object-assign
             },
             [stateDropdownMenu, toggleHandler, typesArray, typeFilter],
           );
+          var attackHandler = function (data) {
+            var _a = data.value,
+              min = _a.min,
+              max = _a.max;
+            if (min < 0) min = 0;
+            if (max > 200) max = 200;
+            setAttackMinValue(min);
+            setAttackMaxValue(max);
+            setQuery(function (state) {
+              return __assign(__assign({}, state), { attack_from: min, attack_to: max });
+            });
+          };
           if (isError) {
             return react_1.default.createElement('div', null, '\u041F\u0430\u0440\u0442\u0430\u043A!');
           }
@@ -43923,15 +47121,24 @@ object-assign
             'div',
             { className: Pokedex_module_scss_1.default.root },
             react_1.default.createElement(
-              Heading_1.default,
-              { tag: 'h3', className: Pokedex_module_scss_1.default.title },
-              !isLoading && data && data.total,
-              ' ',
-              react_1.default.createElement('b', null, '\u041F\u043E\u043A\u0435\u043C\u043E\u043D\u043E\u0432'),
-              ' \u0443\u0436\u0435 \u0436\u0434\u0443\u0442 \u0442\u0435\u0431\u044F',
+              'div',
+              null,
+              react_1.default.createElement(
+                Heading_1.default,
+                { tag: 'h3', className: Pokedex_module_scss_1.default.title },
+                !isLoading && data && data.total,
+                ' ',
+                react_1.default.createElement('b', null, '\u041F\u043E\u043A\u0435\u043C\u043E\u043D\u043E\u0432'),
+                ' \u0443\u0436\u0435 \u0436\u0434\u0443\u0442 \u0442\u0435\u0431\u044F',
+              ),
+              react_1.default.createElement(Input_1.default, { inputValue: inputValue, onChange: onChange }),
+              react_1.default.createElement(
+                'div',
+                { className: Pokedex_module_scss_1.default.filters },
+                !typesIsLoading && dropdownTypes,
+                react_1.default.createElement(Slider_1.default, { data: sliderAttackData, onChange: attackHandler }),
+              ),
             ),
-            react_1.default.createElement(Input_1.default, { inputValue: inputValue, onChange: onChange }),
-            react_1.default.createElement('div', { className: Pokedex_module_scss_1.default.filters }, dropdownTypes),
             react_1.default.createElement(
               'div',
               { className: Pokedex_module_scss_1.default.wrapper },
@@ -44131,16 +47338,158 @@ object-assign
               };
             return __assign.apply(this, arguments);
           };
+        var __awaiter =
+          (this && this.__awaiter) ||
+          function (thisArg, _arguments, P, generator) {
+            function adopt(value) {
+              return value instanceof P
+                ? value
+                : new P(function (resolve) {
+                    resolve(value);
+                  });
+            }
+            return new (P || (P = Promise))(function (resolve, reject) {
+              function fulfilled(value) {
+                try {
+                  step(generator.next(value));
+                } catch (e) {
+                  reject(e);
+                }
+              }
+              function rejected(value) {
+                try {
+                  step(generator['throw'](value));
+                } catch (e) {
+                  reject(e);
+                }
+              }
+              function step(result) {
+                result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected);
+              }
+              step((generator = generator.apply(thisArg, _arguments || [])).next());
+            });
+          };
+        var __generator =
+          (this && this.__generator) ||
+          function (thisArg, body) {
+            var _ = {
+                label: 0,
+                sent: function () {
+                  if (t[0] & 1) throw t[1];
+                  return t[1];
+                },
+                trys: [],
+                ops: [],
+              },
+              f,
+              y,
+              t,
+              g;
+            return (
+              (g = { next: verb(0), throw: verb(1), return: verb(2) }),
+              typeof Symbol === 'function' &&
+                (g[Symbol.iterator] = function () {
+                  return this;
+                }),
+              g
+            );
+            function verb(n) {
+              return function (v) {
+                return step([n, v]);
+              };
+            }
+            function step(op) {
+              if (f) throw new TypeError('Generator is already executing.');
+              while (_)
+                try {
+                  if (
+                    ((f = 1),
+                    y &&
+                      (t =
+                        op[0] & 2 ? y['return'] : op[0] ? y['throw'] || ((t = y['return']) && t.call(y), 0) : y.next) &&
+                      !(t = t.call(y, op[1])).done)
+                  )
+                    return t;
+                  if (((y = 0), t)) op = [op[0] & 2, t.value];
+                  switch (op[0]) {
+                    case 0:
+                    case 1:
+                      t = op;
+                      break;
+                    case 4:
+                      _.label++;
+                      return { value: op[1], done: false };
+                    case 5:
+                      _.label++;
+                      y = op[1];
+                      op = [0];
+                      continue;
+                    case 7:
+                      op = _.ops.pop();
+                      _.trys.pop();
+                      continue;
+                    default:
+                      if (!((t = _.trys), (t = t.length > 0 && t[t.length - 1])) && (op[0] === 6 || op[0] === 2)) {
+                        _ = 0;
+                        continue;
+                      }
+                      if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) {
+                        _.label = op[1];
+                        break;
+                      }
+                      if (op[0] === 6 && _.label < t[1]) {
+                        _.label = t[1];
+                        t = op;
+                        break;
+                      }
+                      if (t && _.label < t[2]) {
+                        _.label = t[2];
+                        _.ops.push(op);
+                        break;
+                      }
+                      if (t[2]) _.ops.pop();
+                      _.trys.pop();
+                      continue;
+                  }
+                  op = body.call(thisArg, _);
+                } catch (e) {
+                  op = [6, e];
+                  y = 0;
+                } finally {
+                  f = t = 0;
+                }
+              if (op[0] & 5) throw op[1];
+              return { value: op[0] ? op[1] : void 0, done: true };
+            }
+          };
+        var __importDefault =
+          (this && this.__importDefault) ||
+          function (mod) {
+            return mod && mod.__esModule ? mod : { default: mod };
+          };
         Object.defineProperty(exports, '__esModule', { value: true });
+        exports.getTypesAction = exports.getPokemonsTypesIsLoading = exports.getPokemonsTypes = exports.PokemonsActionTypes = void 0;
+        var request_1 = __importDefault(__webpack_require__(/*! ../utils/request */ './src/utils/request.ts'));
+        var index_1 = __webpack_require__(/*! ../config/index */ './src/config/index.ts');
+        var PokemonsActionTypes;
+        (function (PokemonsActionTypes) {
+          PokemonsActionTypes['FETCH_TYPES'] = 'FETCH_TYPES';
+          PokemonsActionTypes['FETCH_TYPES_RESOLVE'] = 'FETCH_TYPES_RESOLVE';
+          PokemonsActionTypes['FETCH_TYPES_REJECT'] = 'FETCH_TYPES_REJECT';
+        })((PokemonsActionTypes = exports.PokemonsActionTypes || (exports.PokemonsActionTypes = {})));
         var initialState = {
-          loading: false,
+          types: {
+            isLoading: false,
+            data: null,
+            error: null,
+          },
         };
         var pokemons = function (state, action) {
           if (state === void 0) {
             state = initialState;
           }
           switch (action.type) {
-            case 'FETCH_TYPES':
+            case PokemonsActionTypes.FETCH_TYPES:
               return __assign(__assign({}, state), {
                 types: {
                   isLoading: true,
@@ -44148,7 +47497,7 @@ object-assign
                   error: null,
                 },
               });
-            case 'FETCH_TYPES_RESOLVE':
+            case PokemonsActionTypes.FETCH_TYPES_RESOLVE:
               return __assign(__assign({}, state), {
                 types: {
                   isLoading: false,
@@ -44156,7 +47505,7 @@ object-assign
                   error: null,
                 },
               });
-            case 'FETCH_TYPES_REJECT':
+            case PokemonsActionTypes.FETCH_TYPES_REJECT:
               return __assign(__assign({}, state), {
                 types: {
                   isLoading: false,
@@ -44165,8 +47514,41 @@ object-assign
                 },
               });
             default:
-              state;
+              return state;
           }
+        };
+        exports.getPokemonsTypes = function (state) {
+          return state.pokemons.types.data;
+        };
+        exports.getPokemonsTypesIsLoading = function (state) {
+          return state.pokemons.types.isLoading;
+        };
+        exports.getTypesAction = function () {
+          return function (dispatch) {
+            return __awaiter(void 0, void 0, void 0, function () {
+              var response, error_1;
+              return __generator(this, function (_a) {
+                switch (_a.label) {
+                  case 0:
+                    dispatch({ type: PokemonsActionTypes.FETCH_TYPES });
+                    _a.label = 1;
+                  case 1:
+                    _a.trys.push([1, 3, , 4]);
+                    return [4 /*yield*/, request_1.default(index_1.EEndpoint.getPokemonsType)];
+                  case 2:
+                    response = _a.sent();
+                    dispatch({ type: PokemonsActionTypes.FETCH_TYPES_RESOLVE, payload: response });
+                    return [3 /*break*/, 4];
+                  case 3:
+                    error_1 = _a.sent();
+                    dispatch({ type: PokemonsActionTypes.FETCH_TYPES_REJECT, payload: error_1 });
+                    return [3 /*break*/, 4];
+                  case 4:
+                    return [2 /*return*/];
+                }
+              });
+            });
+          };
         };
         exports.default = pokemons;
 
@@ -44379,6 +47761,9 @@ object-assign
           __webpack_require__(/*! ./getUrlWithParamsConfig */ './src/utils/getUrlWithParamsConfig.ts'),
         );
         function req(endpoint, query) {
+          if (query === void 0) {
+            query = {};
+          }
           return __awaiter(this, void 0, void 0, function () {
             var _a, method, uri, body, options, result;
             return __generator(this, function (_b) {
