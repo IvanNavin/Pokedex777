@@ -1,2 +1,7 @@
 webpack.config.js
+webpack.client.config.js
+webpack.server.config.js
+/src/server/server.js
+
+*.d.ts
 *.css

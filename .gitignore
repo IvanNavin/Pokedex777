@@ -2,5 +2,6 @@ node_modules/
 .idea/
 dist/
 
+/src/**/*.d.ts
 **/*.module.scss.d.ts
 yarn-error.log
