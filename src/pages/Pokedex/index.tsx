@@ -13,6 +13,7 @@ import { IPokemons, PokemonsRequest } from '../../interface/pokemons';
 import useDebounce from '../../hook/useDebounce';
 import { getPokemonsTypes, getPokemonsTypesIsLoading, getTypesAction } from '../../store/pokemon';
 import { EEndpoint } from '../../config/index';
+import Slider from '../../components/Slider';
 
 interface IQuery {
   limit: number;
@@ -27,9 +28,19 @@ const Pokedex = () => {
   const [typeValue, setTypeValue] = useState<string>('');
   const [stateDropdownMenu, setStateDropdownMenu] = useState<boolean>(false);
   const [query, setQuery] = useState<IQuery>({ limit: 100 });
-  const debounceValue = useDebounce(inputValue || typeValue, 500);
+  const [attackMinValue, setAttackMinValue] = useState<number>(0);
+  const [attackMaxValue, setAttackMaxValue] = useState<number>(200);
+  const debounceValue = useDebounce(inputValue || typeValue || attackMinValue || attackMaxValue, 500);
   const { data, isLoading, isError } = useData<IPokemons>(EEndpoint.getPokemons, query, [debounceValue]);
   const [typesArray, setTypesArray] = useState(new Map());
+
+  const sliderAttackData = {
+    min: 0,
+    max: 200,
+    step: 1,
+    value: { min: attackMinValue, max: attackMaxValue },
+    label: 'Атака',
+  };
 
   useEffect(() => {
     dispatch(getTypesAction());
@@ -68,6 +79,21 @@ const Pokedex = () => {
     );
   }, [stateDropdownMenu, toggleHandler, typesArray, typeFilter]);
 
+  const attackHandler = (data: any) => {
+    let { min, max } = data;
+
+    if (min < 0) min = 0;
+    if (max > 200) max = 200;
+    setAttackMinValue(min);
+    setAttackMaxValue(max);
+
+    setQuery((state: IQuery) => ({
+      ...state,
+      attack_from: min,
+      attack_to: max,
+    }));
+  };
+
   if (isError) {
     return <div>Партак!</div>;
   }
@@ -79,7 +105,10 @@ const Pokedex = () => {
           {!isLoading && data && data.total} <b>Покемонов</b> уже ждут тебя
         </Heading>
         <Input inputValue={inputValue} onChange={onChange} />
-        <div className={s.filters}>{!typesIsLoading && dropdownTypes}</div>
+        <div className={s.filters}>
+          {!typesIsLoading && dropdownTypes}
+          <Slider data={sliderAttackData} onChange={attackHandler} />
+        </div>
       </div>
       <div className={s.wrapper}>
         {isLoading ? (

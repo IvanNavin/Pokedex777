@@ -19,7 +19,7 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
   const dropClass = cn(s.menu, { [s.active]: isActive });
 
   return (
-    <div>
+    <>
       <div className={s.menuContainer}>
         <button type="button" onClick={onClick} className={s.menuTrigger}>
           <span>{title}</span>
@@ -39,7 +39,7 @@ const DropdownMenu: React.FC<IDropdown> = ({ ...props }) => {
           </ul>
         </nav>
       </div>
-    </div>
+    </>
   );
 };
 

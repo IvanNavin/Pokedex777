@@ -3,6 +3,8 @@ export enum EEndpoint {
   getPokemon = 'getPokemon',
   getPokemonsType = 'getPokemonsType',
   getPokemonsByType = 'getPokemonsByType',
+  getPokemonsByMinAttack = 'getPokemonsByMinAttack',
+  getPokemonsByMaxAttack = 'getPokemonsByMaxAttack',
 }
 
 type THttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'TRACE';
@@ -63,6 +65,18 @@ const config: IConfig = {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons?types={type}',
+        },
+      },
+      [EEndpoint.getPokemonsByMinAttack]: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/pokemons?attack_from={min}',
+        },
+      },
+      [EEndpoint.getPokemonsByMaxAttack]: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/pokemons?attack_to={max}',
         },
       },
     },
