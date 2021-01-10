@@ -1,30 +1,37 @@
+export enum EEndpoint {
+  getPokemons = 'getPokemons',
+  getPokemon = 'getPokemon',
+  getPokemonsType = 'getPokemonsType',
+  getPokemonsByType = 'getPokemonsByType',
+}
+
+type THttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS' | 'TRACE';
+
+interface IUri {
+  pathname: string;
+}
+
+interface IEndpoint {
+  method: THttpMethod;
+  uri: IUri;
+}
+
+interface IServer {
+  protocol: string;
+  host: string;
+}
+
+type TEndpoints = {
+  [key in EEndpoint]: IEndpoint;
+};
+
+interface IClient {
+  server: IServer;
+  endpoint: TEndpoints;
+}
+
 interface IConfig {
-  client: {
-    server: {
-      protocol: string;
-      host: string;
-    };
-    endpoint: {
-      getPokemons: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-      getPokemon: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-      getPokemonsByType: {
-        method: string;
-        uri: {
-          pathname: string;
-        };
-      };
-    };
-  };
+  client: IClient;
 }
 
 const config: IConfig = {
@@ -34,19 +41,25 @@ const config: IConfig = {
       host: 'zar.hosthot.ru',
     },
     endpoint: {
-      getPokemons: {
+      [EEndpoint.getPokemons]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons',
         },
       },
-      getPokemon: {
+      [EEndpoint.getPokemon]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemon/{id}',
         },
       },
-      getPokemonsByType: {
+      [EEndpoint.getPokemonsType]: {
+        method: 'GET',
+        uri: {
+          pathname: '/api/v1/types',
+        },
+      },
+      [EEndpoint.getPokemonsByType]: {
         method: 'GET',
         uri: {
           pathname: '/api/v1/pokemons?types={type}',

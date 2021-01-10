@@ -5,10 +5,14 @@ describe('getUrlWithParamsConfig', () => {
     const url = getUrlWithParamsConfig('getPokemons', {});
 
     expect(url).toEqual({
-      protocol: 'http',
-      host: 'zar.hosthot.ru',
-      pathname: '/api/v1/pokemons',
-      query: {},
+      method: 'GET',
+      uri: {
+        protocol: 'http',
+        host: 'zar.hosthot.ru',
+        pathname: '/api/v1/pokemons',
+        query: {},
+      },
+      body: {},
     });
   });
 
@@ -16,10 +20,14 @@ describe('getUrlWithParamsConfig', () => {
     const url = getUrlWithParamsConfig('getPokemons', { name: 'Pikachu' });
 
     expect(url).toEqual({
-      protocol: 'http',
-      host: 'zar.hosthot.ru',
-      pathname: '/api/v1/pokemons',
-      query: { name: 'Pikachu' },
+      method: 'GET',
+      uri: {
+        protocol: 'http',
+        host: 'zar.hosthot.ru',
+        pathname: '/api/v1/pokemons',
+        query: { name: 'Pikachu' },
+      },
+      body: {},
     });
   });
 
@@ -27,10 +35,14 @@ describe('getUrlWithParamsConfig', () => {
     const url = getUrlWithParamsConfig('getPokemon', { id: 25 });
 
     expect(url).toEqual({
-      protocol: 'http',
-      host: 'zar.hosthot.ru',
-      pathname: '/api/v1/pokemon/25',
-      query: {},
+      method: 'GET',
+      uri: {
+        protocol: 'http',
+        host: 'zar.hosthot.ru',
+        pathname: '/api/v1/pokemon/25',
+        query: {},
+      },
+      body: {},
     });
   });
 
@@ -38,10 +50,14 @@ describe('getUrlWithParamsConfig', () => {
     const url = getUrlWithParamsConfig('getPokemonsByType', { type: 'grass' });
 
     expect(url).toEqual({
-      protocol: 'http',
-      host: 'zar.hosthot.ru',
-      pathname: '/api/v1/pokemons?types=grass',
-      query: {},
+      method: 'GET',
+      uri: {
+        protocol: 'http',
+        host: 'zar.hosthot.ru',
+        pathname: '/api/v1/pokemons?types=grass',
+        query: {},
+      },
+      body: {},
     });
   });
 });
