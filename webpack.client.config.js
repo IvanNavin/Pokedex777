@@ -13,7 +13,6 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     filename: 'main.js',
   },
-  // watch: true,
   watchOptions: {
     ignored: [/node_modules/, path.resolve(__dirname, 'src/server/server.js')],
     poll: 1000,
@@ -22,7 +21,7 @@ module.exports = {
     rules: [
       {
         test: /\.[tj]sx?$/,
-        exclude: /node_modules/,
+        exclude: [/node_modules/, path.resolve(__dirname, 'src/server/server.js')],
         use: ['ts-loader'],
       },
       {
