@@ -39,7 +39,7 @@ interface IConfig {
 const config: IConfig = {
   client: {
     server: {
-      protocol: 'https',
+      protocol: 'http',
       host: 'zar.hosthot.ru',
     },
     endpoint: {
