@@ -13,6 +13,7 @@
   color: $dark;
   cursor: pointer;
   position: relative;
+  transition: transformY linear 0.2s;
 
   &.small {
     height: 55px;
@@ -35,6 +36,6 @@
   }
 
   &:active {
-    top: 1px;
+    transform: translateY(-1px);
   }
 }

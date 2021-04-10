@@ -55,7 +55,13 @@ const Pokedex = () => {
   };
 
   const toggleHandler = (type: string, state: boolean) => {
-    typesArray.has(type) ? typesArray.delete(type) : setTypesArray(new Map(typesArray.set(type, '')));
+    if (typesArray.has(type)) {
+      typesArray.delete(type);
+      setTypesArray(new Map(typesArray));
+    } else {
+      setTypesArray(new Map(typesArray.set(type, '')));
+    }
+
     setTypeValue(type);
     setStateDropdownMenu(state);
 
