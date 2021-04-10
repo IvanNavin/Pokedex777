@@ -7,7 +7,7 @@ describe('getUrlWithParamsConfig', () => {
     expect(url).toEqual({
       method: 'GET',
       uri: {
-        protocol: 'http',
+        protocol: 'https',
         host: 'zar.hosthot.ru',
         pathname: '/api/v1/pokemons',
         query: {},
@@ -22,7 +22,7 @@ describe('getUrlWithParamsConfig', () => {
     expect(url).toEqual({
       method: 'GET',
       uri: {
-        protocol: 'http',
+        protocol: 'https',
         host: 'zar.hosthot.ru',
         pathname: '/api/v1/pokemons',
         query: { name: 'Pikachu' },
@@ -37,7 +37,7 @@ describe('getUrlWithParamsConfig', () => {
     expect(url).toEqual({
       method: 'GET',
       uri: {
-        protocol: 'http',
+        protocol: 'https',
         host: 'zar.hosthot.ru',
         pathname: '/api/v1/pokemon/25',
         query: {},
@@ -52,7 +52,7 @@ describe('getUrlWithParamsConfig', () => {
     expect(url).toEqual({
       method: 'GET',
       uri: {
-        protocol: 'http',
+        protocol: 'https',
         host: 'zar.hosthot.ru',
         pathname: '/api/v1/pokemons?types=grass',
         query: {},
